@@ -5,47 +5,53 @@ from typing import Type
 
 # Local imports
 
-from source_download.downloadEssential import DownloadEssential
-from source_download.interfaces import DownloadEssentialInterface, DownloadPlaylistInterface
-from source_download.message import Message
+from source_download import (
+    DownloadEssential, DownloadEssentialInterface, DownloadPlaylistInterface, 
+    Message
+)
 
-class DownloadVerify():
+class DownloadVerify:
 
-    def VerifyUrl(url : str) -> bool:
-        verify_url = findall('^(https\:\/\/)', str(url))
-        verify_domain_full = findall('^(https:\/\/www.youtube.com\/)', str(url))
-        verify_domain_short = findall('^(https:\/\/youtu.be\/)', str(url))
-        verify_track = findall('^(https:\/\/www\.youtube\.com\/watch\?)', str(url))
-        if (len(verify_url) != 0 or len(verify_domain_full) != 0 or len(verify_domain_short) != 0 or len(verify_track) != 0):
-            return True
-        else:
-            return False
+    def verify_url(url: str) -> bool:
+        verify_tuple_regex = (
+            r'^(https:\/\/www.youtube.com\/)', # domain full
+            r'^(https:\/\/youtu.be\/)', # domain short
+        )
 
-    def VerifyPlaylist(url : str) -> bool:
-        verify_url = findall('(playlist\?list=)', str(url))
+        for verify in verify_tuple_regex:
+            if len(findall(verify, str(url))) != 0: 
+                return True # Verify regex
+
+        return False
+
+    def verify_playlist(url: str) -> bool:
+        verify_url = findall(r'(playlist\?list=)', str(url))
         if len(verify_url) != 0 :
             return True
         else :
             return False
     
-    def main(link : str, mp3 : bool, video : Type[DownloadEssentialInterface], playlist : Type[DownloadPlaylistInterface]) -> None:
+    def main(link:str, mp3:bool, \
+        video: Type[DownloadEssentialInterface], \
+        playlist: Type[DownloadPlaylistInterface]) -> None:
+
         link = str(link)
         print("Iniciando o download")
         try :
-            if DownloadVerify.VerifyUrl(link):
-                DownloadEssential().createDirectory('Música')
-                if DownloadVerify.VerifyPlaylist(link):
+            if DownloadVerify.verify_url(link):
+                DownloadEssential().create_directory('Música')
+                if DownloadVerify.verify_playlist(link):
                     print("Verificado playlist, iniciando o download da playlist")
                     playlist(link, mp3).download_playlist(video)
                 else :
                     print("Verificado vídeo, iniciando o download do vídeo")
                     if mp3:
-                        video(link, mp3).downloadAudio()
+                        video(link, mp3).download_audio()
                     else :
-                        video(link, mp3).downloadVideo()
+                        video(link, mp3).download_video()
             else:
                 Message.set_output("Erro, url invalida!")
 
         except Exception as Ex :
             Message.set_output("YouTube quebrou o app :/")
-            print(f'ERROR : {Ex.with_traceback()}')
+            print(f'ERROR:{Ex.with_traceback()}')
