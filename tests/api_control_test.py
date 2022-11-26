@@ -2,20 +2,20 @@ from time import sleep
 from sys import path
 path.append('../')
 
-from source_api import ApiControll
-from source_api.interfaces import ApiControllInterface
+from source_api import ApiControl
+from source_api.interfaces import ApiControlInterface
 
 def test_answer() :
 
-    api_controll = ApiControll()
+    api_control = ApiControl()
 
     # Instance 
 
-    assert isinstance(api_controll, ApiControllInterface)
+    assert isinstance(api_control, ApiControlInterface)
 
     # Upload
 
-    response = api_controll.upload('/home/emanuel/Música/Outros/Rap do The Last of Us 2 - SE EU TE PERDER  Ft Amanda Areia.mp3')
+    response = api_control.upload('/home/emanuel/Música/Outros/Rap do The Last of Us 2 - SE EU TE PERDER  Ft Amanda Areia.mp3')
 
     assert type(response) == dict
     assert response['message'] == 'Audio uploaded successfully'
@@ -26,7 +26,7 @@ def test_answer() :
 
     sleep(3)
 
-    response = api_controll.get_status(hash)
+    response = api_control.get_status(hash)
 
     assert type(response) == dict
     assert type(response['status']) == bool
@@ -34,7 +34,7 @@ def test_answer() :
 
     # Get file
 
-    response = api_controll.get_file(hash)
+    response = api_control.get_file(hash)
 
     assert type(response) == dict
     assert type(response['filename']) == str
