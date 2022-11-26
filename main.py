@@ -7,16 +7,15 @@ from urllib.error import URLError
 from urllib.request import urlopen
 
 # Local imports
-import download
 from intent import Intent
 from source_android import Android
 from source_api import ApiControl
-import source_download.downloadPlaylist as playlist
-import source_download.downloadVideo as video
-from source_download.message import Message
-from source_download.interfaces import MessageInterface
 
-# Android
+from source_download import (
+    DownloadVideo, DownloadPlaylist, Message, MessageInterface
+)
+from download import DownloadVerify
+
 class Tela(Screen):
     def __init__(self, message_class: MessageInterface, **kwargs):
         super().__init__(**kwargs)
@@ -36,7 +35,12 @@ class Tela(Screen):
         self.ids.progressbar.value = 0
         try:
             url = str(self.ids.link.text)
-            Thread(target=download.DownloadVerify.main, args=(url, self.verify_mp3(), video.DownloadVideo, playlist.DownloadPlaylist)).start()
+
+            Thread(
+                target=DownloadVerify.main, 
+                args=(url, self.verify_mp3(), DownloadVideo, DownloadPlaylist)
+            ).start()
+
         except Exception as erro:
             self.ids.output.text = f'Alguma coisa deu errado!\nPor favor insira uma nova url\nTente novamente!\n {erro}'
 

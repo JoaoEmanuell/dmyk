@@ -1,7 +1,8 @@
-from .interfaces import ApiControlInterface
 from threading import Thread
-from .external_modules.requests import get, post
 from typing import Dict
+
+from .interfaces import ApiControlInterface
+from .external_modules.requests import get, post
 
 class ApiControl(ApiControlInterface) :
     def __init__(self) -> None :

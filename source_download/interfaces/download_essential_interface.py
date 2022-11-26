@@ -6,9 +6,9 @@ class DownloadEssentialInterface(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def downloadVideo(self) -> None:
+    def download_video(self) -> None:
         raise NotImplementedError
 
     @abstractmethod
-    def downloadAudio(self) -> None:
+    def download_audio(self) -> None:
         raise NotImplementedError

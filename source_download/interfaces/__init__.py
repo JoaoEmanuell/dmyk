@@ -1,4 +1,4 @@
-from .downloadEssentialInterface import DownloadEssentialInterface
-from .downloadPlaylistInterface import DownloadPlaylistInterface
+from .download_essential_interface import DownloadEssentialInterface
+from .download_playlist_interface import DownloadPlaylistInterface
 from .download_interface import DownloadInterface
 from .message_interface import MessageInterface

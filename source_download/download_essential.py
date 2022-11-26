@@ -16,7 +16,7 @@ from .message import Message
 from .download import Download
 
 class DownloadEssential():
-    def VerifyIfFileNotExists(self, convert : bool, file : Type[Stream], path : str) -> bool:
+    def verify_if_file_not_exists(self, convert : bool, file : Type[Stream], path : str) -> bool:
         if convert:
 
             filename = str(file.default_filename)
@@ -28,47 +28,31 @@ class DownloadEssential():
             filename = file.default_filename
             return not(exists(f"{path}Música/{filename}"))
 
-    def ConvertToMp3(self, file_path : str, file_name : str) -> None :
+    def convert_to_mp3(self, file_path : str, file_name : str) -> None :
 
         rename(file_path, file_path.replace('.mp4', '.mp3'))
-
         file_path = file_path.replace('.mp4', '.mp3')
-
         api_control = ApiControl()
 
         # Upload file
-
         print("Upload file")
-
         Message.set_output('Iniciando conversão para mp3, aguarde um pouco!')
-
         response = api_control.upload(file_path)
-
         hash = response['hash']
-
         Message.set_output('Conversão iniciada!')
-
         Message.set_progressbar(0, 100)
-
         print(f'Hash : {hash}')
-
         sleep(2)
 
         while True :
-
+            # Monitoring conversion status
             sleep(2)
-
             response = api_control.get_status(hash)
-
             print(f"Status : {response}")
-
-            if response['status'] :
+            if response['status']: # status == True
                 break
-            
             try :
-
                 Message.set_progressbar(response['total'], response['current'])
-
             except KeyError :
                 pass
 
@@ -79,25 +63,17 @@ class DownloadEssential():
         # Download File
 
         converted = api_control.get_file(hash)
-
         print(f'Converted : {converted}')
-
         Message.set_output('Removendo arquivo antigo')
-
         remove(file_path)
-
         download = Download()
-
         Message.set_output('Download do arquivo convertido iniciado!')
-
         file = download.download(converted['audio'])
 
         # Save File
 
         Message.set_output('Salvando novo arquivo')
-
         path = f'{self._get_download_path()}Música/'
-
         filename = file_name.replace('.mp4', '.mp3') # Remove .mp4 extension
         filename = sub(r'(\s\s)', ' ', filename) # Remove double spaces
 
@@ -106,16 +82,15 @@ class DownloadEssential():
             dir=path, 
             content=file
             )
-
+        
         # Delete file on server
-
         api_control.delete_file(hash)
 
     def _get_download_path(self) -> str:
         paths = {
                     "win" : r"C:\Users\%s\Desktop\\",
                     "linux" : "/home/%s/",
-                    "android" : "/storage/emulated/0/"
+                    "android" : "/storage/emulated/0"
                 }
         try :
             if platform != 'android' :
@@ -124,7 +99,7 @@ class DownloadEssential():
         except KeyError:
             raise "Plataforma invalida"
 
-    def createDirectory(self, name : str) -> None:
+    def create_directory(self, name : str) -> None:
         path = self._get_download_path()
         print(f'Path : {path}')
         if not(isdir(f'{path}/{name}')):
