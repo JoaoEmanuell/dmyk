@@ -9,7 +9,6 @@ import shutil
 import sys
 import datetime as dt
 import subprocess  # nosec
-import main as ma
 from typing import List, Optional
 
 import pytube.exceptions as exceptions
@@ -17,6 +16,7 @@ from pytube import __version__
 from pytube import CaptionQuery, Playlist, Stream, YouTube
 from pytube.helpers import safe_filename, setup_logger
 
+import source_download
 
 logger = logging.getLogger(__name__)
 
@@ -250,9 +250,9 @@ def on_progress(
     print(f'Restando : {bytes_remaining}MB')
     print(f'Total : {filesize}MB')
     print(f'Completo : {filesize - bytes_remaining}MB\n')
-    complet = filesize - bytes_remaining
+    complete = filesize - bytes_remaining
     if bytes_remaining != 0:
-        ma.Tela.progressbar(filesize, complet)
+        source_download.Message.set_progressbar(filesize, complete)
 
 
 def _download(
