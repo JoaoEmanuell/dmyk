@@ -108,3 +108,12 @@ dist
 *.tmp
 tmp/
 external_modules/
+
+# Python virtual env
+
+bin/
+lib64
+lib/
+include/
+intent/
+pyvenv.cfg
