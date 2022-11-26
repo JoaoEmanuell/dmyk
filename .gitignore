@@ -105,7 +105,7 @@ dist
 
 # Local
 .vscode/
-*.tmp
+tmp.*
 tmp/
 external_modules/
 
