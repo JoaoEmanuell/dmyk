@@ -115,5 +115,4 @@ bin/
 lib64
 lib/
 include/
-intent/
 pyvenv.cfg
