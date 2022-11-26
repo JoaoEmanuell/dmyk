@@ -108,6 +108,7 @@ dist
 tmp.*
 tmp/
 external_modules/
+backlog.md
 
 # Python virtual env
 
