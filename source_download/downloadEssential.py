@@ -11,7 +11,7 @@ from time import sleep
 # Local imports
 
 from pytube.streams import Stream
-from source_api import ApiControll
+from source_api import ApiControl
 from .message import Message
 from .download import Download
 
@@ -34,7 +34,7 @@ class DownloadEssential():
 
         file_path = file_path.replace('.mp4', '.mp3')
 
-        api_controll = ApiControll()
+        api_control = ApiControl()
 
         # Upload file
 
@@ -42,7 +42,7 @@ class DownloadEssential():
 
         Message.set_output('Iniciando conversão para mp3, aguarde um pouco!')
 
-        response = api_controll.upload(file_path)
+        response = api_control.upload(file_path)
 
         hash = response['hash']
 
@@ -58,7 +58,7 @@ class DownloadEssential():
 
             sleep(2)
 
-            response = api_controll.get_status(hash)
+            response = api_control.get_status(hash)
 
             print(f"Status : {response}")
 
@@ -78,7 +78,7 @@ class DownloadEssential():
 
         # Download File
 
-        converted = api_controll.get_file(hash)
+        converted = api_control.get_file(hash)
 
         print(f'Converted : {converted}')
 
@@ -109,7 +109,7 @@ class DownloadEssential():
 
         # Delete file on server
 
-        api_controll.delete_file(hash)
+        api_control.delete_file(hash)
 
     def _get_download_path(self) -> str:
         paths = {

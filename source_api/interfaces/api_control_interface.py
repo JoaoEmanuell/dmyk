@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Dict
 
-class ApiControllInterface(ABC) :
+class ApiControlInterface(ABC) :
     @abstractmethod
     def __init__(self) -> None:
         """
@@ -11,7 +11,7 @@ class ApiControllInterface(ABC) :
             NotImplementedError: NotImplementedError
         """
 
-        self.__endpoint : str = 'endpoint'
+        self.__endpoint:str = 'endpoint'
         self.private__start_api()
         raise NotImplementedError
 
@@ -27,7 +27,7 @@ class ApiControllInterface(ABC) :
         raise NotImplementedError
     
     @abstractmethod
-    def upload(self, file_path : str) -> Dict[str, str] :
+    def upload(self, file_path:str) -> Dict[str, str] :
         """
         Upload a file
 
@@ -40,14 +40,14 @@ class ApiControllInterface(ABC) :
         Returns:
             Dict[str, str]: {
                 'message': 'Message',
-                'hash' : 'Hash'
+                'hash':'Hash'
             }
         """        
 
         raise NotImplementedError
 
     @abstractmethod
-    def get_status(self, hash : str) -> Dict[str, str] :
+    def get_status(self, hash:str) -> Dict[str, str] :
         """
         Get a conversion file status
 
@@ -59,14 +59,14 @@ class ApiControllInterface(ABC) :
 
         Returns:
             Dict[str, str]: {
-                'status' : Bool
+                'status':Bool
             }
         """        
 
         raise NotImplementedError
     
     @abstractmethod
-    def get_file(self, hash : str) -> Dict[str, str] :
+    def get_file(self, hash:str) -> Dict[str, str] :
         """
         Get file
 
@@ -78,15 +78,15 @@ class ApiControllInterface(ABC) :
 
         Returns:
             Dict[str, str]: {
-                'audio' : 'Audio path in the server', 
-                'filename' : 'Filename audio'
+                'audio':'Audio path in the server', 
+                'filename':'Filename audio'
             }
         """  
       
         raise NotImplementedError
 
     @abstractmethod
-    def delete_file(self, hash : str) -> None:
+    def delete_file(self, hash:str) -> None:
         """Delete file on server
 
         Args:

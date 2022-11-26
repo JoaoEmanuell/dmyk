@@ -11,7 +11,6 @@ from .downloadEssential import DownloadEssential
 from .interfaces import DownloadEssentialInterface
 from .message import Message
 
-
 class DownloadVideo(DownloadEssentialInterface):
     def __init__(self, link : str, mp3 : bool) -> None:
         self.__video = YouTube(link, on_progress_callback=on_progress)

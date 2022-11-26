@@ -1,7 +1,6 @@
 # Global imports
 from kivy.app import App
 from kivy.uix.screenmanager import Screen
-from kivy.clock import mainthread
 from kivy.utils import platform
 from threading import Thread
 from urllib.error import URLError
@@ -11,25 +10,28 @@ from urllib.request import urlopen
 import download
 from intent import Intent
 from source_android import Android
-from source_api import ApiControll
+from source_api import ApiControl
 import source_download.downloadPlaylist as playlist
 import source_download.downloadVideo as video
+from source_download.message import Message
+from source_download.interfaces import MessageInterface
 
 # Android
 class Tela(Screen):
-    def __init__(self, **kwargs):
+    def __init__(self, message_class: MessageInterface, **kwargs):
         super().__init__(**kwargs)
         self.ids.link.text = Intent(platform).get_intent_text()
-        ApiControll()
+        self.__message_class = message_class
+        ApiControl()
 
-    def main(self):
+    def main(self) -> None:
         try :
             urlopen('https://www.youtube.com')
         except URLError:
             self.ids.output.text = 'Sua conexão de internet está indisponível, por favor tente novamente'
         else:
-            self.startDownload()
-    def startDownload(self):
+            self.start_download()
+    def start_download(self):
         self.ids.output.text = ''
         self.ids.progressbar.value = 0
         try:
@@ -38,24 +40,19 @@ class Tela(Screen):
         except Exception as erro:
             self.ids.output.text = f'Alguma coisa deu errado!\nPor favor insira uma nova url\nTente novamente!\n {erro}'
 
-    def verify_mp3(self):
+    def verify_mp3(self) -> bool:
         mp3 = self.ids.mp3.state
         mp4 = self.ids.mp4.state
         if mp3 == 'down':
             return True
         elif mp4 == 'down' :
             return False
-        else :
+        else:
             return True
 
-    @mainthread
-    def progressbar(max,percent):
-        App.get_running_app().root.ids.progressbar.max = int(max)
-        App.get_running_app().root.ids.progressbar.value = int(percent)
-
 class Main(App):
-    def build(self):
-        return Tela()
+    def build(self) -> Screen:
+        return Tela(Message)
 
 if __name__ == '__main__':
     Android()

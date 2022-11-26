@@ -1,1 +1,1 @@
-from .api_controll_interface import ApiControllInterface
+from .api_control_interface import ApiControlInterface
