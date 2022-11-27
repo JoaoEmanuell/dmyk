@@ -110,6 +110,7 @@ tmp/
 external_modules/
 backlog.md
 .buildozer/
+.pytest_cache/
 
 # Python virtual env
 
