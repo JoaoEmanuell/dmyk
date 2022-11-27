@@ -1,12 +1,12 @@
 # Global imports
-
 from os.path import exists, isdir, join
 from os import mkdir, remove, rename
 from re import sub
-from kivy.utils import platform
 from getpass import getuser
 from typing import Type
 from time import sleep
+
+from kivy.utils import platform
 
 # Local imports
 

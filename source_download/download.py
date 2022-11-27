@@ -1,9 +1,10 @@
-from .interfaces import DownloadInterface
 from io import BytesIO
 from urllib.request import Request, urlopen
-from .message import Message
 
-class Download(DownloadInterface) :
+from .message import Message
+from .interfaces import DownloadInterface
+
+class Download(DownloadInterface):
     def download(self, url : str) -> bytes :
         request = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
 
@@ -42,6 +43,7 @@ class Download(DownloadInterface) :
 
             return file
 
-    def save_file(self, name : str = '', dir : str = '.', content : bytes = b'') -> None :
+    def save_file(self, name: str='', dir: str='.', content: bytes=b'') \
+        -> None :
         with open(f'{dir}/{name}', 'wb') as f :
             f.write(content)

@@ -1,15 +1,14 @@
 # Global imports
 
 # Create ssl
-
 import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
 
-from pytube import YouTube
-from pytube.cli import on_progress
 
 # Local imports
 
+from pytube import YouTube
+from pytube.cli import on_progress
 from .download_essential import DownloadEssential
 from .interfaces import DownloadEssentialInterface
 from .message import Message

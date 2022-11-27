@@ -1,13 +1,14 @@
 # Global imports
-from kivy.app import App
-from kivy.uix.screenmanager import Screen
-from kivy.utils import platform
 from threading import Thread
 from urllib.error import URLError
 from urllib.request import urlopen
 
+from kivy.app import App
+from kivy.uix.screenmanager import Screen
+from kivy.utils import platform
+
 # Local imports
-from intent import Intent
+from intent import Intent # Android intent
 from source_android import Android
 from source_api import ApiControl
 
@@ -30,6 +31,7 @@ class Tela(Screen):
             self.ids.output.text = 'Sua conexão de internet está indisponível, por favor tente novamente'
         else:
             self.start_download()
+
     def start_download(self):
         self.ids.output.text = ''
         self.ids.progressbar.value = 0

@@ -1,12 +1,11 @@
 # Global imports
-
-from pytube import Playlist
 import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
 from typing import Type
 
 # Local imports
 
+from pytube import Playlist
 from .interfaces import DownloadPlaylistInterface, DownloadEssentialInterface
 from .message import Message
 
