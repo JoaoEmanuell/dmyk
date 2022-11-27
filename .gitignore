@@ -109,6 +109,7 @@ tmp.*
 tmp/
 external_modules/
 backlog.md
+.buildozer/
 
 # Python virtual env
 
