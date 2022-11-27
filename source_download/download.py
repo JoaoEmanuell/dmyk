@@ -1,5 +1,6 @@
 from io import BytesIO
 from urllib.request import Request, urlopen
+from os.path import join
 
 from .message import Message
 from .interfaces import DownloadInterface
@@ -45,5 +46,7 @@ class Download(DownloadInterface):
 
     def save_file(self, name: str='', dir: str='.', content: bytes=b'') \
         -> None :
-        with open(f'{dir}/{name}', 'wb') as f :
+        print(name, dir)
+        print(join(dir, name))
+        with open(join(dir, name), 'wb') as f :
             f.write(content)

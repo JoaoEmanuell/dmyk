@@ -73,7 +73,8 @@ class DownloadEssential():
         # Save File
 
         Message.set_output('Salvando novo arquivo')
-        path = f'{self._get_download_path()}Música/'
+        path = join(self._get_download_path(), 'Música')
+        print(path)
         filename = file_name.replace('.mp4', '.mp3') # Remove .mp4 extension
         filename = sub(r'(\s\s)', ' ', filename) # Remove double spaces
 
@@ -81,7 +82,7 @@ class DownloadEssential():
             name=filename,
             dir=path, 
             content=file
-            )
+        )
         
         # Delete file on server
         api_control.delete_file(hash)
@@ -89,7 +90,7 @@ class DownloadEssential():
     def _get_download_path(self) -> str:
         paths = {
                     "win" : r"C:\Users\%s\Desktop\\",
-                    "linux" : "/home/%s/",
+                    "linux" : "/home/%s",
                     "android" : "/storage/emulated/0"
                 }
         try :

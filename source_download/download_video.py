@@ -3,7 +3,7 @@
 # Create ssl
 import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
-
+from os.path import join
 
 # Local imports
 
@@ -51,13 +51,16 @@ class DownloadVideo(DownloadEssentialInterface):
         if DownloadEssential().verify_if_file_not_exists(self.__convert, self.__stream, self.__path):
 
             Message.set_output(self.__templates_strings['download'] % ('da música', self.__video.title))
-            self.__stream.download(output_path=f'{self.__path}/Música/')
+            self.__stream.download(output_path=join(self.__path, '', 'Música', ''))
             Message.set_progressbar(100, 100)
             Message.set_output('Iniciando conversão para mp3, aguarde um pouco!')
             filename = str(self.__stream.default_filename)
 
             try : 
-                DownloadEssential().convert_to_mp3(f'{self.__path}Música/{filename}', self.__stream.default_filename)
+                path_to_music = join(self.__path, '', 'Música', filename)
+                DownloadEssential().convert_to_mp3(
+                    path_to_music, self.__stream.default_filename
+                )
             except Exception as err:
                 Message.set_output(f'Ocorreu um erro durante a conversão\nO vídeo não pode ser convertido mas ele já está salvo na pasta música!')
                 print(f'ERR: {err.with_traceback()}')
