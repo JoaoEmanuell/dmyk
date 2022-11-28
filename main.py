@@ -9,7 +9,7 @@ from kivy.utils import platform
 
 # Local imports
 from intent import Intent # Android intent
-from source_android import Android
+from source_android import Android, service
 from source_api import ApiControl
 
 from source_download import (
@@ -59,6 +59,18 @@ class Tela(Screen):
 class Main(App):
     def build(self) -> Screen:
         return Tela(Message)
+
+    def on_start(self):
+        print("Start application!")
+        service.start_service()
+
+    def on_stop(self):
+        print("Stop application")
+        service.stop_service()
+
+    def on_pause(self): return True
+
+    def on_resume(self): pass
 
 if __name__ == '__main__':
     Android()

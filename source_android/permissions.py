@@ -1,8 +1,14 @@
 class Android:
     def __init__(self) -> None:
         try:
-            from android.storage import app_storage_path, primary_external_storage_path, secondary_external_storage_path
-            from android.permissions import request_permissions, Permission
-            request_permissions([Permission.WRITE_EXTERNAL_STORAGE])
+            '''
+            https://github.com/kivy/kivy/issues/6944#issuecomment-927382493
+            '''
+            from android.permissions import ( # type: ignore
+                Permission, check_permission, request_permissions
+            )
+            perms = [Permission.WRITE_EXTERNAL_STORAGE]
+            if not all([check_permission(perm) for perm in perms]):
+                request_permissions(perms)
         except:
             print('Plataforma invalida, permissões do android invalidas!')
