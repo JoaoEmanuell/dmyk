@@ -19,6 +19,7 @@ pexpect==4.8.0
 Pillow==9.3.0
 platformdirs==2.5.0
 ptyprocess==0.7.0
+py-notifier==0.3.2
 Pygments==2.13.0
 pytoml==0.1.21
 requests==2.28.1
