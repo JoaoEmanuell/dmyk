@@ -3,8 +3,10 @@ from pynotifier import Notification as PyNotification
 from .interfaces import NotificationInterface
 
 class Notification(NotificationInterface):
-    def __init__(self, platform: str = None, icon_path: str = None) -> None:
+    def __init__(self, platform: str = None, title: str='', icon_path: str = None) -> None:
         self.__platform = str(platform)
+        self.__title = str(title)
+        self.__desktop_platforms = ('win', 'linux', )
 
         # Validate icon path
         if self.__platform == 'linux' and icon_path != None:
@@ -14,13 +16,13 @@ class Notification(NotificationInterface):
         else:
             self.__icon_path = None
 
-    def send_notification(self, title: str = '', description: str = '', \
-        duration: int = 5, urgency: str = 'normal') -> None:
+    def send_notification(self, description: str = '', \
+        duration: int = 3, urgency: str = 'normal') -> None:
 
-        if self.__platform == 'win' or self.__platform == 'linux':
+        if self.__platform in self.__desktop_platforms:
 
             PyNotification(
-                title=title,
+                title=self.__title,
                 description=description,
                 duration=duration,
                 icon_path=self.__icon_path,
