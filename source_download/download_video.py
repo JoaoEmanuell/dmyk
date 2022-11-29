@@ -42,10 +42,8 @@ class DownloadVideo(DownloadEssentialInterface):
             Message.set_output(self.__templates_strings['download'] % ('do vídeo', self.__video.title))
 
             self.__notification_obj.send_notification(
-                title='DMYK',
                 description=self.__templates_strings['download'] \
                     % ('do vídeo', self.__video.title),
-                duration=3
             )
 
             self.__stream.download(output_path=f'{self.__path}/Música/') # Start download
@@ -53,9 +51,7 @@ class DownloadVideo(DownloadEssentialInterface):
             Message.set_output(self.__templates_strings['end'] % (self.__video.title))
 
             self.__notification_obj.send_notification(
-                title='DMYK',
                 description=self.__templates_strings['end'] % (self.__video.title),
-                duration=3
             )
 
             Message.set_progressbar(100, 100)
@@ -66,10 +62,8 @@ class DownloadVideo(DownloadEssentialInterface):
         Message.set_output(self.__templates_strings['start'] % ('da música', self.__video.title))
 
         self.__notification_obj.send_notification(
-            title='DMYK',
             description=self.__templates_strings['start'] \
                 % ('da música', self.__video.title),
-            duration=3
         )
 
         self.__stream = self.__video.streams.get_audio_only() # Start download
@@ -82,9 +76,7 @@ class DownloadVideo(DownloadEssentialInterface):
             Message.set_output('Iniciando conversão para mp3, aguarde um pouco!')
 
             self.__notification_obj.send_notification(
-                title='DMYK',
                 description='Iniciando conversão para mp3',
-                duration=3
             )
 
             filename = str(self.__stream.default_filename)
@@ -98,9 +90,7 @@ class DownloadVideo(DownloadEssentialInterface):
                 Message.set_output(f'Ocorreu um erro durante a conversão\nO vídeo não pode ser convertido mas ele já está salvo na pasta música!')
 
                 self.__notification_obj.send_notification(
-                    title='DMYK',
                     description='Erro durante a conversão!',
-                    duration=3
                 )
 
                 print(f'ERR: {err.with_traceback()}')
@@ -112,10 +102,8 @@ class DownloadVideo(DownloadEssentialInterface):
                 Message.set_output(self.__templates_strings['convert'] % (self.__video.title))
 
                 self.__notification_obj.send_notification(
-                    title='DMYK',
                     description=self.__templates_strings['convert'] \
                         % (self.__video.title),
-                    duration=3
                 )
 
         else :

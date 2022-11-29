@@ -21,9 +21,7 @@ class DownloadPlaylist(DownloadPlaylistInterface):
     def download_playlist(self, download : Type[DownloadEssentialInterface]):
         Message.set_output(f"Download da playlist iniciado!")
         self.__notification_obj.send_notification(
-            title='DMYK',
             description='Download da playlist iniciado!',
-            duration=3
         )
         for video in self.__playlist:
             if self.__CONVERT:
@@ -40,7 +38,5 @@ class DownloadPlaylist(DownloadPlaylistInterface):
                 ).download_video()
         Message.set_output("Download da Playlist concluído!")
         self.__notification_obj.send_notification(
-            title='DMYK',
             description='Download da Playlist concluído!',
-            duration=3
         )
