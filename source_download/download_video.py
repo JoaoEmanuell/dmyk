@@ -30,14 +30,14 @@ class DownloadVideo(DownloadEssentialInterface):
             'exists' : '%s "%s" já foi baixado!'
         }
 
-        self.__path = DownloadEssential()._get_download_path()
+        self.__path = DownloadEssential._get_download_path()
 
     def download_video(self) -> None:
         Message.set_output(self.__templates_strings['start'] % ('do vídeo', self.__video.title))
 
         self.__stream = self.__video.streams.get_highest_resolution()
 
-        if DownloadEssential().verify_if_file_not_exists(self.__convert, self.__stream, self.__path):
+        if DownloadEssential.verify_if_file_not_exists(self.__convert, self.__stream, self.__path):
 
             Message.set_output(self.__templates_strings['download'] % ('do vídeo', self.__video.title))
 
@@ -74,7 +74,7 @@ class DownloadVideo(DownloadEssentialInterface):
 
         self.__stream = self.__video.streams.get_audio_only() # Start download
 
-        if DownloadEssential().verify_if_file_not_exists(self.__convert, self.__stream, self.__path):
+        if DownloadEssential.verify_if_file_not_exists(self.__convert, self.__stream, self.__path):
 
             Message.set_output(self.__templates_strings['download'] % ('da música', self.__video.title))
             self.__stream.download(output_path=join(self.__path, '', 'Música', ''))
@@ -91,7 +91,7 @@ class DownloadVideo(DownloadEssentialInterface):
 
             try : 
                 path_to_music = join(self.__path, '', 'Música', filename)
-                DownloadEssential().convert_to_mp3(
+                DownloadEssential.convert_to_mp3(
                     path_to_music, self.__stream.default_filename
                 )
             except Exception as err:
