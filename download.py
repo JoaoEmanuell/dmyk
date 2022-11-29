@@ -9,6 +9,7 @@ from source_download import (
     DownloadEssential, DownloadEssentialInterface, DownloadPlaylistInterface, 
     Message
 )
+from source_notification import notification
 
 class DownloadVerify:
 
@@ -42,15 +43,15 @@ class DownloadVerify:
                 DownloadEssential().create_directory('Música')
                 if DownloadVerify.verify_playlist(link):
                     print("Verificado playlist, iniciando o download da playlist")
-                    playlist(link, mp3).download_playlist(video)
+                    playlist(link, mp3, notification).download_playlist(video)
                 else :
                     print("Verificado vídeo!")
                     if mp3:
                         print("Iniciando download da música")
-                        video(link, mp3).download_audio()
+                        video(link, mp3, notification).download_audio()
                     else :
                         print("Iniciando download do vídeo")
-                        video(link, mp3).download_video()
+                        video(link, mp3, notification).download_video()
             else:
                 Message.set_output("Erro, url invalida!")
 
