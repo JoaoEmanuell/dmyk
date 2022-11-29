@@ -9,7 +9,7 @@ class Notification(NotificationInterface):
         # Validate icon path
         if self.__platform == 'linux' and icon_path != None:
             self.__icon_path = f'{icon_path}.png'
-        elif self.__platform == 'windows' and icon_path != None:
+        elif self.__platform == 'win' and icon_path != None:
             self.__icon_path = f'{icon_path}.ico'
         else:
             self.__icon_path = None
@@ -17,7 +17,7 @@ class Notification(NotificationInterface):
     def send_notification(self, title: str = '', description: str = '', \
         duration: int = 5, urgency: str = 'normal') -> None:
 
-        if self.__platform == 'windows' or self.__platform == 'linux':
+        if self.__platform == 'win' or self.__platform == 'linux':
 
             PyNotification(
                 title=title,
