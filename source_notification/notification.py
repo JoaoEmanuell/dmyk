@@ -1,5 +1,3 @@
-from pynotifier import Notification as PyNotification
-
 from .interfaces import NotificationInterface
 
 class Notification(NotificationInterface):
@@ -23,6 +21,7 @@ class Notification(NotificationInterface):
         duration: int = 3, urgency: str = 'normal') -> None:
 
         if self.__platform in self.__desktop_platforms:
+            from pynotifier import Notification as PyNotification
 
             PyNotification(
                 title=self.__title,
