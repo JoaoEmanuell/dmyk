@@ -38,6 +38,7 @@ class DownloadVerify:
 
         link = str(link)
         print("Iniciando o download")
+        notification.send_notification()
         try :
             if DownloadVerify.verify_url(link):
                 DownloadEssential().create_directory('Música')

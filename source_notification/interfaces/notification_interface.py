@@ -1,4 +1,7 @@
 from abc import ABC, abstractmethod
+from typing import Type
+
+from .android_notification_interface import AndroidNotificationInterface
 
 class NotificationInterface(ABC):
     """
@@ -6,13 +9,15 @@ class NotificationInterface(ABC):
     Using 'pynotifier' to linux and windows!
     """
     @abstractmethod
-    def __init__(self, platform: str=None, title: str='', icon_path: str=None) -> None:
+    def __init__(self, platform: str=None, title: str='', icon_path: str=None, \
+        android_notification: Type[AndroidNotificationInterface]=None) -> None:
         """Init
 
         Args:
             platform (str): Platform on running project.
             title (str): Title of notification.
             icon_path (str): Icon path, not include extension, or None if not icon.
+            android_notification (AndroidNotificationInterface): Android notification class
         """        
         raise NotImplementedError()
 
