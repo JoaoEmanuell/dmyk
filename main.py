@@ -11,6 +11,7 @@ from kivy.utils import platform
 from intent import Intent # Android intent
 from source_android import Android, service
 from source_api import ApiControl
+from source_ui import ui_drop_down_obj
 
 from source_download import (
     DownloadVideo, DownloadPlaylist, Message, MessageInterface
@@ -35,6 +36,8 @@ class Tela(Screen):
     def start_download(self):
         self.ids.output.text = ''
         self.ids.progressbar.value = 0
+        quality = ui_drop_down_obj.get_text()
+        print(quality)
         try:
             url = str(self.ids.link.text)
 
@@ -55,6 +58,8 @@ class Tela(Screen):
             return False
         else:
             return True
+
+    def show_drop_down(self): ui_drop_down_obj.open(self.ids.mp4)
 
 class Main(App):
     def build(self) -> Screen:
