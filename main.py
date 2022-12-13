@@ -29,15 +29,15 @@ class Tela(Screen):
         try :
             urlopen('https://www.youtube.com')
         except URLError:
-            self.ids.output.text = 'Sua conexão de internet está indisponível, por favor tente novamente'
+            self.__message_class.set_output('Sua conexão de internet está \
+                indisponível, por favor tente novamente')
         else:
             self.start_download()
 
     def start_download(self):
-        self.ids.output.text = ''
+        self.__message_class.set_output('')
         self.ids.progressbar.value = 0
         quality = ui_drop_down_obj.get_text()
-        print(quality)
         try:
             url = str(self.ids.link.text)
 
@@ -47,7 +47,8 @@ class Tela(Screen):
             ).start()
 
         except Exception as erro:
-            self.ids.output.text = f'Alguma coisa deu errado!\nPor favor insira uma nova url\nTente novamente!\n {erro}'
+            self.__message_class.set_output(f'Alguma coisa deu errado!\nPor favor \
+                insira uma nova url\nTente novamente!\n {erro}')
 
     def verify_mp3(self) -> bool:
         mp3 = self.ids.mp3.state
@@ -59,7 +60,7 @@ class Tela(Screen):
         else:
             return True
 
-    def show_drop_down(self):
+    def show_drop_down(self) -> None:
         ui_drop_down_obj.open(self.ids.mp4)
         self.ids.mp4.state = 'down'
 
