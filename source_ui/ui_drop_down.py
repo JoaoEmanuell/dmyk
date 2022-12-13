@@ -4,7 +4,7 @@ from kivy.uix.togglebutton import ToggleButton
 class UiDropDown(DropDown):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.__qualities = ('480', '360', '240', '144')
+        self.__qualities = ('480p', '360p', '240p', '144p')
         self.size_hint_y = None
         self.__text = ''
         self.create_ui()
@@ -13,7 +13,7 @@ class UiDropDown(DropDown):
         buttons_group = 'drop_down_quality'
         button_ui_arg = {'size_hint_y': None, 'height': 44}
         btn_720 = ToggleButton(
-            text='720', group=buttons_group, state='down', **button_ui_arg
+            text='720p', group=buttons_group, state='down', **button_ui_arg
         )
         btn_720.bind(
                 on_release=lambda btn: (
