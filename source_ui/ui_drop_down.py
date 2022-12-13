@@ -6,7 +6,7 @@ class UiDropDown(DropDown):
         super().__init__(**kwargs)
         self.__qualities = ('480p', '360p', '240p', '144p')
         self.size_hint_y = None
-        self.__text = ''
+        self.__text = '720p'
         self.create_ui()
 
     def create_ui(self) -> None:
