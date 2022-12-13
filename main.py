@@ -59,19 +59,17 @@ class Tela(Screen):
         else:
             return True
 
-    def show_drop_down(self): ui_drop_down_obj.open(self.ids.mp4)
+    def show_drop_down(self):
+        ui_drop_down_obj.open(self.ids.mp4)
+        self.ids.mp4.state = 'down'
 
 class Main(App):
     def build(self) -> Screen:
         return Tela(Message)
 
-    def on_start(self):
-        print("Start application!")
-        service.start_service()
+    def on_start(self): service.start_service()
 
-    def on_stop(self):
-        print("Stop application")
-        service.stop_service()
+    def on_stop(self): service.stop_service()
 
     def on_pause(self): return True
 
