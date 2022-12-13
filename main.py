@@ -37,13 +37,15 @@ class Tela(Screen):
     def start_download(self):
         self.__message_class.set_output('')
         self.ids.progressbar.value = 0
-        quality = ui_drop_down_obj.get_text()
         try:
             url = str(self.ids.link.text)
 
             Thread(
                 target=DownloadVerify.main, 
-                args=(url, self.verify_mp3(), DownloadVideo, DownloadPlaylist)
+                args=(
+                    url, self.verify_mp3(), ui_drop_down_obj.get_text(),
+                    DownloadVideo, DownloadPlaylist, 
+                )
             ).start()
 
         except Exception as erro:
