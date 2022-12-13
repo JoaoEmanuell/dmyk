@@ -15,8 +15,9 @@ from source_api import ApiControl
 from .message import Message
 from .download import Download
 
-class DownloadEssential():
-    def verify_if_file_not_exists(self, convert : bool, file : Type[Stream], path : str) -> bool:
+class DownloadEssential:
+    @classmethod
+    def verify_if_file_not_exists(cls, convert : bool, file : Type[Stream], path : str) -> bool:
         if convert:
 
             filename = str(file.default_filename)
@@ -28,7 +29,8 @@ class DownloadEssential():
             filename = file.default_filename
             return not(exists(f"{path}Música/{filename}"))
 
-    def convert_to_mp3(self, file_path : str, file_name : str) -> None :
+    @classmethod
+    def convert_to_mp3(cls, file_path : str, file_name : str) -> None :
 
         rename(file_path, file_path.replace('.mp4', '.mp3'))
         file_path = file_path.replace('.mp4', '.mp3')
@@ -73,7 +75,7 @@ class DownloadEssential():
         # Save File
 
         Message.set_output('Salvando novo arquivo')
-        path = join(self._get_download_path(), 'Música')
+        path = join(cls._get_download_path(), 'Música')
         print(path)
         filename = file_name.replace('.mp4', '.mp3') # Remove .mp4 extension
         filename = sub(r'(\s\s)', ' ', filename) # Remove double spaces
@@ -87,7 +89,8 @@ class DownloadEssential():
         # Delete file on server
         api_control.delete_file(hash)
 
-    def _get_download_path(self) -> str:
+    @classmethod
+    def _get_download_path(cls) -> str:
         paths = {
                     "win" : r"C:\Users\%s\Desktop\\",
                     "linux" : "/home/%s",
@@ -100,8 +103,9 @@ class DownloadEssential():
         except KeyError:
             raise "Plataforma invalida"
 
-    def create_directory(self, name : str) -> None:
-        path = self._get_download_path()
+    @classmethod
+    def create_directory(cls, name : str) -> None:
+        path = cls._get_download_path()
         print(f'Path : {path}')
         if not(isdir(f'{path}/{name}')):
             path = join(path, name)

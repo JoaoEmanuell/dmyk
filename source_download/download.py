@@ -6,7 +6,8 @@ from .message import Message
 from .interfaces import DownloadInterface
 
 class Download(DownloadInterface):
-    def download(self, url : str) -> bytes :
+    @classmethod
+    def download(cls, url : str) -> bytes :
         request = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
 
         with urlopen(request) as response : 
@@ -44,7 +45,8 @@ class Download(DownloadInterface):
 
             return file
 
-    def save_file(self, name: str='', dir: str='.', content: bytes=b'') \
+    @classmethod
+    def save_file(cls, name: str='', dir: str='.', content: bytes=b'') \
         -> None :
         print(name, dir)
         print(join(dir, name))
