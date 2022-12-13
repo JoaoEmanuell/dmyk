@@ -1,11 +1,11 @@
-from abc import ABC, abstractmethod
+from abc import ABC, abstractclassmethod
 
 class DownloadInterface(ABC) :
 
-    @abstractmethod
-    def download(self, url: str) -> bytes :
+    @abstractclassmethod
+    def download(cls, url: str) -> bytes :
         raise NotImplementedError
 
-    @abstractmethod
-    def save_file(self, name: str, path: str, content: bytes) -> None :
+    @abstractclassmethod
+    def save_file(cls, name: str, path: str, content: bytes) -> None :
         raise NotImplementedError
