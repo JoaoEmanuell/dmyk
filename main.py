@@ -11,6 +11,7 @@ from kivy.utils import platform
 from intent import Intent # Android intent
 from source_android import Android, service
 from source_api import ApiControl
+from source_ui import ui_drop_down_obj
 
 from source_download import (
     DownloadVideo, DownloadPlaylist, Message, MessageInterface
@@ -28,23 +29,28 @@ class Tela(Screen):
         try :
             urlopen('https://www.youtube.com')
         except URLError:
-            self.ids.output.text = 'Sua conexão de internet está indisponível, por favor tente novamente'
+            self.__message_class.set_output('Sua conexão de internet está \
+                indisponível, por favor tente novamente')
         else:
             self.start_download()
 
     def start_download(self):
-        self.ids.output.text = ''
+        self.__message_class.set_output('')
         self.ids.progressbar.value = 0
         try:
             url = str(self.ids.link.text)
 
             Thread(
                 target=DownloadVerify.main, 
-                args=(url, self.verify_mp3(), DownloadVideo, DownloadPlaylist)
+                args=(
+                    url, self.verify_mp3(), ui_drop_down_obj.get_text(),
+                    DownloadVideo, DownloadPlaylist, 
+                )
             ).start()
 
         except Exception as erro:
-            self.ids.output.text = f'Alguma coisa deu errado!\nPor favor insira uma nova url\nTente novamente!\n {erro}'
+            self.__message_class.set_output(f'Alguma coisa deu errado!\nPor favor \
+                insira uma nova url\nTente novamente!\n {erro}')
 
     def verify_mp3(self) -> bool:
         mp3 = self.ids.mp3.state
@@ -56,17 +62,17 @@ class Tela(Screen):
         else:
             return True
 
+    def show_drop_down(self) -> None:
+        ui_drop_down_obj.open(self.ids.mp4)
+        self.ids.mp4.state = 'down'
+
 class Main(App):
     def build(self) -> Screen:
         return Tela(Message)
 
-    def on_start(self):
-        print("Start application!")
-        service.start_service()
+    def on_start(self): service.start_service()
 
-    def on_stop(self):
-        print("Stop application")
-        service.stop_service()
+    def on_stop(self): service.stop_service()
 
     def on_pause(self): return True
 

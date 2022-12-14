@@ -11,8 +11,8 @@ from source_download import (
 )
 
 class DownloadVerify:
-
-    def verify_url(url: str) -> bool:
+    @classmethod
+    def verify_url(cls, url: str) -> bool:
         verify_tuple_regex = (
             r'^(https:\/\/www.youtube.com\/)', # domain full
             r'^(https:\/\/youtu.be\/)', # domain short
@@ -24,14 +24,16 @@ class DownloadVerify:
 
         return False
 
-    def verify_playlist(url: str) -> bool:
+    @classmethod
+    def verify_playlist(cls, url: str) -> bool:
         verify_url = findall(r'(playlist\?list=)', str(url))
         if len(verify_url) != 0 :
             return True
         else :
             return False
     
-    def main(link:str, mp3:bool, \
+    @classmethod
+    def main(cls, link: str, mp3: bool, quality: str, \
         video: Type[DownloadEssentialInterface], \
         playlist: Type[DownloadPlaylistInterface]) -> None:
 
@@ -42,15 +44,15 @@ class DownloadVerify:
                 DownloadEssential().create_directory('Música')
                 if DownloadVerify.verify_playlist(link):
                     print("Verificado playlist, iniciando o download da playlist")
-                    playlist(link, mp3).download_playlist(video)
+                    playlist(link, mp3, quality).download_playlist(video)
                 else :
                     print("Verificado vídeo!")
                     if mp3:
                         print("Iniciando download da música")
-                        video(link, mp3).download_audio()
+                        video(link, mp3, quality).download_audio()
                     else :
                         print("Iniciando download do vídeo")
-                        video(link, mp3).download_video()
+                        video(link, mp3, quality).download_video()
             else:
                 Message.set_output("Erro, url invalida!")
 
