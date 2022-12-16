@@ -5,6 +5,7 @@
 from kivy.app import App
 from kivy.clock import mainthread
 
+from styles import styles as style_dict
 from .interfaces import MessageInterface
 
 class Message(MessageInterface):
@@ -25,6 +26,19 @@ class Message(MessageInterface):
         App.get_running_app().root.ids.download_button.text = str(text)
 
     @classmethod
+    @mainthread
+    def set_widget_style(cls, widget_id: str='', propriety: str='', \
+        style: str='') -> None:
+
+        setattr(
+            getattr(App.get_running_app().root.ids, widget_id), # Get widget
+            propriety,
+            style_dict[widget_id][style]
+        ) # Set style on widget
+
+    # Alias
+
+    @classmethod
     def set_out(cls, text: str='') -> None:
         cls.set_output(text)
 
@@ -35,3 +49,9 @@ class Message(MessageInterface):
     @classmethod
     def set_dbt(cls, text: str='') -> None:
         cls.set_download_button_text(text)
+
+    @classmethod
+    def set_ws(cls, widget_id: str='', propriety: str='', \
+        style: str='') -> None:
+
+        cls.set_widget_style(widget_id, propriety, style)
