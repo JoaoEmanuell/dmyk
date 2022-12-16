@@ -10,13 +10,13 @@ from .interfaces import CustomThreadInterface
 
 class CustomThread(CustomThreadInterface, Thread):
     """Custom Thread to extend threads function"""    
-    def __init__(self):       
+    def __init__(self):
         self.killed = False
 
     def start(self):
-        """Start thread, use at the place run"""        
+        """Start thread, use at the place run"""  
         self.__run_backup = self.run
-        self.run = self.__run     
+        self.run = self.__run
         Thread.start(self)
 
     def __run(self):
@@ -26,7 +26,7 @@ class CustomThread(CustomThreadInterface, Thread):
         self.run = self.__run_backup
 
     def globaltrace(self, frame, event, arg):
-        """Globaltrace"""        
+        """Globaltrace"""
         if event == 'call':
             return self.localtrace
         else:
