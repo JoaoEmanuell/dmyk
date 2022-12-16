@@ -37,8 +37,8 @@ class DownloadVerify:
         video: Type[DownloadEssentialInterface], \
         playlist: Type[DownloadPlaylistInterface]) -> None:
 
-        link = str(link)
         print("Iniciando o download")
+        link = str(link)
         try:
             if DownloadVerify.verify_url(link):
                 DownloadEssential.create_directory('Música')
@@ -53,26 +53,24 @@ class DownloadVerify:
                         )
                         print("Iniciando download da música")
                         video(link, mp3, quality).download_audio()
-                        Message.set_dbt('Baixar Música ou playlist')
-                        Message.set_widget_style(
-                            'download_button', 'background_color', 'default'
-                        )
+                        cls.set_dbt_style_text()
                     else:
                         Message.set_widget_style(
                             'download_button', 'background_color', 'stop'
                         )
                         print("Iniciando download do vídeo")
                         video(link, mp3, quality).download_video()
-                        Message.set_dbt('Baixar Música ou playlist')
-                        Message.set_widget_style(
-                            'download_button', 'background_color', 'default'
-                        )
+                        cls.set_dbt_style_text()
             else:
                 Message.set_out("Erro, url invalida!")
-                Message.set_dbt('Baixar Música ou playlist')
-                Message.set_ws('download_button', 'background_color', 'default')
+                cls.set_dbt_style_text()
 
         except Exception as Ex:
             Message.set_out("YouTube quebrou o app:/")
-            Message.set_dbt('Baixar Música ou playlist')
+            cls.set_dbt_style_text()
             print(f'ERROR:{Ex.with_traceback()}')
+
+    @classmethod
+    def set_dbt_style_text(cls, background_style: str='default') -> None:
+        Message.set_dbt('Baixar Música ou playlist')
+        Message.set_ws('download_button', 'background_color', background_style)
