@@ -48,16 +48,29 @@ class DownloadVerify:
                 else:
                     print("Verificado vídeo!")
                     if mp3:
+                        Message.set_widget_style(
+                            'download_button', 'background_color', 'stop'
+                        )
                         print("Iniciando download da música")
                         video(link, mp3, quality).download_audio()
                         Message.set_dbt('Baixar Música ou playlist')
+                        Message.set_widget_style(
+                            'download_button', 'background_color', 'default'
+                        )
                     else:
+                        Message.set_widget_style(
+                            'download_button', 'background_color', 'stop'
+                        )
                         print("Iniciando download do vídeo")
                         video(link, mp3, quality).download_video()
                         Message.set_dbt('Baixar Música ou playlist')
+                        Message.set_widget_style(
+                            'download_button', 'background_color', 'default'
+                        )
             else:
                 Message.set_out("Erro, url invalida!")
                 Message.set_dbt('Baixar Música ou playlist')
+                Message.set_ws('download_button', 'background_color', 'default')
 
         except Exception as Ex:
             Message.set_out("YouTube quebrou o app:/")
