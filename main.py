@@ -32,22 +32,25 @@ class Tela(Screen):
         try:
             urlopen('https://www.youtube.com')
         except URLError:
-            self.__message_class.set_output('Sua conexão de internet está \
+            self.__message_class.set_out('Sua conexão de internet está \
                 indisponível, por favor tente novamente')
         else:
             try:
                 if self.__custom_thread.is_alive():
                     self.__custom_thread.kill()
                     self.__custom_thread.join()
-                    self.__message_class.set_output('Download cancelado!')
-                    self.__message_class.set_progressbar(0,0)
+                    self.__message_class.set_out('Download cancelado!')
+                    self.__message_class.set_pb(0,0)
+                    self.__message_class.set_dbt(
+                        'Baixar Música ou playlist'
+                    )
                 else:
                     self.start_download()
             except (AssertionError, AttributeError): # Case the thread not created
                 self.start_download()
 
     def start_download(self):
-        self.__message_class.set_output('')
+        self.__message_class.set_out('')
         self.ids.progressbar.value = 0
         try:
             url = str(self.ids.link.text)
@@ -60,9 +63,10 @@ class Tela(Screen):
                 )
             )
             self.__custom_thread.start()
+            self.__message_class.set_dbt('Parar Download')
 
         except Exception as erro:
-            self.__message_class.set_output(f'Alguma coisa deu errado!\nPor favor \
+            self.__message_class.set_out(f'Alguma coisa deu errado!\nPor favor \
                 insira uma nova url\nTente novamente!\n {erro}')
 
     def verify_mp3(self) -> bool:
