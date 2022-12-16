@@ -6,7 +6,9 @@ https://www.geeksforgeeks.org/python-different-ways-to-kill-a-thread/
 from sys import settrace
 from threading import Thread
 
-class CustomThread(Thread):
+from .interfaces import CustomThreadInterface
+
+class CustomThread(CustomThreadInterface, Thread):
     """Custom Thread to extend threads function"""    
     def __init__(self, *args, **keywords):
         """Same thread args"""        
