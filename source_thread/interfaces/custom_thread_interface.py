@@ -10,3 +10,7 @@ class CustomThreadInterface(ABC):
     def kill(self) -> None:
         """Kill the thread, allows the use of join without erros""" 
         raise NotImplementedError()
+
+    @abstractmethod
+    def set_thread(self, *args, **keywords) -> None:
+        raise NotImplementedError()

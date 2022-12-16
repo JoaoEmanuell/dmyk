@@ -10,9 +10,8 @@ from .interfaces import CustomThreadInterface
 
 class CustomThread(CustomThreadInterface, Thread):
     """Custom Thread to extend threads function"""    
-    def __init__(self, *args, **keywords):
+    def __init__(self):
         """Same thread args"""        
-        Thread.__init__(self, *args, **keywords)
         self.killed = False
 
     def start(self):
@@ -44,3 +43,6 @@ class CustomThread(CustomThreadInterface, Thread):
     def kill(self):
         """Kill the thread, allows the use of join without erros"""        
         self.killed = True
+
+    def set_thread(self, *args, **keywords) -> None:
+        Thread.__init__(self, *args, **keywords)
