@@ -11,7 +11,7 @@ from intent import Intent # Android intent
 from source_android import Android, service
 from source_api import ApiControl
 from source_ui import ui_drop_down_obj
-from source_thread import CustomThreadInterface, custom_thread_obj
+from source_thread import CustomThreadInterface, CustomThread
 
 from source_download import (
     DownloadVideo, DownloadPlaylist, Message, MessageInterface
@@ -26,6 +26,7 @@ class Tela(Screen):
         self.ids.link.text = Intent(platform).get_intent_text()
         self.__message_class = message_class
         self.__custom_thread = custom_thread
+        self.__custom_thread_backup = custom_thread()
         ApiControl()
 
     def main(self) -> None:
@@ -36,13 +37,16 @@ class Tela(Screen):
                 indisponível, por favor tente novamente')
         else:
             try:
-                if self.__custom_thread.is_alive():
-                    self.__custom_thread.kill()
-                    self.__custom_thread.join()
+                if self.__custom_thread_backup.is_alive():
+                    self.__custom_thread_backup.kill()
+                    self.__custom_thread_backup.join()
                     self.__message_class.set_out('Download cancelado!')
                     self.__message_class.set_pb(0,0)
                     self.__message_class.set_dbt(
                         'Baixar Música ou playlist'
+                    )
+                    self.__message_class.set_ws(
+                        'download_button', 'background_color', 'default'
                     )
                 else:
                     self.start_download()
@@ -52,17 +56,23 @@ class Tela(Screen):
     def start_download(self):
         self.__message_class.set_out('')
         self.ids.progressbar.value = 0
+
+        # Set to None to restart the thread without this case treading error
+
+        self.__custom_thread_backup = None
+        self.__custom_thread_backup: CustomThreadInterface = \
+            self.__custom_thread()
         try:
             url = str(self.ids.link.text)
 
-            self.__custom_thread.set_thread(
+            self.__custom_thread_backup.set_thread(
                 target=DownloadVerify.main, 
                 args=(
                     url, self.verify_mp3(), ui_drop_down_obj.get_text(),
                     DownloadVideo, DownloadPlaylist, 
                 )
             )
-            self.__custom_thread.start()
+            self.__custom_thread_backup.start()
             self.__message_class.set_dbt('Parar Download')
 
         except Exception as erro:
@@ -85,7 +95,7 @@ class Tela(Screen):
 
 class Main(App):
     def build(self) -> Screen:
-        return Tela(Message, custom_thread_obj)
+        return Tela(Message, CustomThread)
 
     def on_start(self): service.start_service()
 
