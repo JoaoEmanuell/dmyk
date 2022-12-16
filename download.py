@@ -27,9 +27,9 @@ class DownloadVerify:
     @classmethod
     def verify_playlist(cls, url: str) -> bool:
         verify_url = findall(r'(playlist\?list=)', str(url))
-        if len(verify_url) != 0 :
+        if len(verify_url) != 0:
             return True
-        else :
+        else:
             return False
     
     @classmethod
@@ -39,23 +39,27 @@ class DownloadVerify:
 
         link = str(link)
         print("Iniciando o download")
-        try :
+        try:
             if DownloadVerify.verify_url(link):
-                DownloadEssential().create_directory('Música')
+                DownloadEssential.create_directory('Música')
                 if DownloadVerify.verify_playlist(link):
                     print("Verificado playlist, iniciando o download da playlist")
                     playlist(link, mp3, quality).download_playlist(video)
-                else :
+                else:
                     print("Verificado vídeo!")
                     if mp3:
                         print("Iniciando download da música")
                         video(link, mp3, quality).download_audio()
-                    else :
+                        Message.set_dbt('Baixar Música ou playlist')
+                    else:
                         print("Iniciando download do vídeo")
                         video(link, mp3, quality).download_video()
+                        Message.set_dbt('Baixar Música ou playlist')
             else:
-                Message.set_output("Erro, url invalida!")
+                Message.set_out("Erro, url invalida!")
+                Message.set_dbt('Baixar Música ou playlist')
 
-        except Exception as Ex :
-            Message.set_output("YouTube quebrou o app :/")
+        except Exception as Ex:
+            Message.set_out("YouTube quebrou o app:/")
+            Message.set_dbt('Baixar Música ou playlist')
             print(f'ERROR:{Ex.with_traceback()}')
