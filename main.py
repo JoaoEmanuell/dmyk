@@ -39,10 +39,11 @@ class Tela(Screen):
                 if self.__custom_thread.is_alive():
                     self.__custom_thread.kill()
                     self.__custom_thread.join()
-                    self.__message_class.set_output('')
+                    self.__message_class.set_output('Download cancelado!')
+                    self.__message_class.set_progressbar(0,0)
                 else:
                     self.start_download()
-            except AssertionError: # Case the thread not created
+            except (AssertionError, AttributeError): # Case the thread not created
                 self.start_download()
 
     def start_download(self):
@@ -84,11 +85,7 @@ class Main(App):
 
     def on_start(self): service.start_service()
 
-    def on_stop(self): 
-        service.stop_service()
-        print("Kill threads to stop application!")
-        custom_thread_obj.kill()
-        custom_thread_obj.join()
+    def on_stop(self): service.stop_service()
 
     def on_pause(self): return True
 
