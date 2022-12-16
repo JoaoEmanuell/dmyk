@@ -13,4 +13,5 @@ class CustomThreadInterface(ABC):
 
     @abstractmethod
     def set_thread(self, *args, **keywords) -> None:
+        """Same thread args, use to set thread""" 
         raise NotImplementedError()
