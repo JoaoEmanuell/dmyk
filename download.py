@@ -27,9 +27,9 @@ class DownloadVerify:
     @classmethod
     def verify_playlist(cls, url: str) -> bool:
         verify_url = findall(r'(playlist\?list=)', str(url))
-        if len(verify_url) != 0 :
+        if len(verify_url) != 0:
             return True
-        else :
+        else:
             return False
     
     @classmethod
@@ -37,25 +37,40 @@ class DownloadVerify:
         video: Type[DownloadEssentialInterface], \
         playlist: Type[DownloadPlaylistInterface]) -> None:
 
-        link = str(link)
         print("Iniciando o download")
-        try :
+        link = str(link)
+        try:
             if DownloadVerify.verify_url(link):
-                DownloadEssential().create_directory('Música')
+                DownloadEssential.create_directory('Música')
                 if DownloadVerify.verify_playlist(link):
                     print("Verificado playlist, iniciando o download da playlist")
                     playlist(link, mp3, quality).download_playlist(video)
-                else :
+                else:
                     print("Verificado vídeo!")
                     if mp3:
+                        Message.set_widget_style(
+                            'download_button', 'background_color', 'stop'
+                        )
                         print("Iniciando download da música")
                         video(link, mp3, quality).download_audio()
-                    else :
+                        cls.set_dbt_style_text()
+                    else:
+                        Message.set_widget_style(
+                            'download_button', 'background_color', 'stop'
+                        )
                         print("Iniciando download do vídeo")
                         video(link, mp3, quality).download_video()
+                        cls.set_dbt_style_text()
             else:
-                Message.set_output("Erro, url invalida!")
+                Message.set_out("Erro, url invalida!")
+                cls.set_dbt_style_text()
 
-        except Exception as Ex :
-            Message.set_output("YouTube quebrou o app :/")
+        except Exception as Ex:
+            Message.set_out("YouTube quebrou o app:/")
+            cls.set_dbt_style_text()
             print(f'ERROR:{Ex.with_traceback()}')
+
+    @classmethod
+    def set_dbt_style_text(cls, background_style: str='default') -> None:
+        Message.set_dbt('Baixar Música ou playlist')
+        Message.set_ws('download_button', 'background_color', background_style)
