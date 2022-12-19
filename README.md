@@ -4,7 +4,7 @@
   - [Installing dependencies](#installing-dependencies)
 - [Configurations](#configurations)
 
-[English](README.md) | [Português Brasil](README-br.md)
+[English](README.md) | [Português Brasil](./docs/README-br.md)
 
 # dmyk
 Download Music YouTube Kivy [dmyk] is a project to download music and videos 
