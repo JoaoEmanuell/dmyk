@@ -15,6 +15,7 @@ class DownloadManager:
         verify_tuple_regex = (
             r'^(https:\/\/www.youtube.com\/)', # domain full
             r'^(https:\/\/youtu.be\/)', # domain short
+            r'^(https:\/\/youtube.com\/)', # other domain [playlist share]
         )
 
         for verify in verify_tuple_regex:
