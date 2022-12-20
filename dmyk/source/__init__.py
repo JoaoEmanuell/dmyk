@@ -27,4 +27,4 @@ from .styles import styles
 
 # Singleton
 
-from .singleton import Message
+from .singleton import download_essential

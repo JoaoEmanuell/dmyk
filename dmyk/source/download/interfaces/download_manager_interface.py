@@ -1,27 +1,40 @@
-from abc import ABC, abstractclassmethod
+from abc import ABC, abstractmethod
+
+from .download_video_interface import DownloadVideoInterface
+from .download_playlist_interface import DownloadPlaylistInterface
+from .message_interface import MessageInterface
+from .download_essential_interface import DownloadEssentialInterface
 
 
 class DownloadManagerInterface(ABC):
-    @abstractclassmethod
-    def verify_url(cls, url: str) -> bool:
-        """Verify url, validate if is a YouTube url
+    @abstractmethod
+    def __init__(
+        self,
+        link: str,
+        mp3: bool,
+        quality: str,
+        video: DownloadVideoInterface,
+        playlist: DownloadPlaylistInterface,
+        message: MessageInterface,
+        download_essential: DownloadEssentialInterface,
+    ) -> None:
+        """Init
 
         Args:
-            url (str): url
-
-        Returns:
-            bool: True if url is valid
+            link (str): Link to vídeo or music
+            mp3 (bool): Mp3 conversion
+            quality (str): Quality from vídeo
+            video (DownloadVideoInterface): Class Vídeo Download
+            playlist (DownloadPlaylistInterface): Class playlist Download
+            message (MessageInterface): Class Message
+            download_essential (DownloadEssentialInterface): Class Download Essential
         """
         raise NotImplementedError()
 
-    @abstractclassmethod
-    def verify_playlist(cls, url: str) -> bool:
-        """Verify playlist url
-
-        Args:
-            url (str): url
-
-        Returns:
-            bool: True if url is a playlist url
+    @abstractmethod
+    def main(self) -> None:
+        """
+        Make verifications and start download or give an alert informing if
+        url is invalid
         """
         raise NotImplementedError()

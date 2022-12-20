@@ -3,7 +3,7 @@ from urllib.request import Request, urlopen
 from os.path import join
 
 from .message import Message
-from ..interfaces import DownloadContentInterface
+from .interfaces import DownloadContentInterface
 
 class DownloadContent(DownloadContentInterface):
     @classmethod
