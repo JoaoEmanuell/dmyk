@@ -1,29 +1,21 @@
-# Interfaces import
-
-from .interfaces import (
-    ServiceInterface, ApiControlInterface, DownloadEssentialInterface,
-    DownloadContentInterface, DownloadPlaylistInterface, MessageInterface,
-    CustomThreadInterface
-)
-
 # Android import
 
-from .android import Android, Service, service, Intent
+from .android import Android, Service, service, Intent, ServiceInterface
 
 # Api control
 
-from .api import ApiControl
+from .api import ApiControl, ApiControlInterface
 
 # Download
 
 from .download import (
     DownloadContent, DownloadEssential, DownloadPlaylist, DownloadVideo,
-    Message, DownloadManager
+    Message, DownloadManager, DownloadPlaylistInterface, DownloadContentInterface, DownloadEssentialInterface, DownloadManagerInterface, DownloadVideoInterface, MessageInterface
 )
 
 # Custom thread
 
-from .thread import CustomThread
+from .thread import CustomThread, CustomThreadInterface
 
 # Ui
 
@@ -32,3 +24,7 @@ from .ui import UiDropDown, ui_drop_down_obj
 # Styles
 
 from .styles import styles
+
+# Singleton
+
+from .singleton import Message

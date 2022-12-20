@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import Dict
 
-class ApiControlInterface(ABC) :
+
+class ApiControlInterface(ABC):
     @abstractmethod
     def __init__(self) -> None:
         """
@@ -11,12 +12,12 @@ class ApiControlInterface(ABC) :
             NotImplementedError: NotImplementedError
         """
 
-        self.__endpoint:str = 'endpoint'
+        self.__endpoint: str = "endpoint"
         self.private__start_api()
         raise NotImplementedError
 
     @abstractmethod
-    def private__start_api(self) -> None :
+    def private__start_api(self) -> None:
         """
         Private method, start the api
 
@@ -25,9 +26,9 @@ class ApiControlInterface(ABC) :
         """
 
         raise NotImplementedError
-    
+
     @abstractmethod
-    def upload(self, file_path:str) -> Dict[str, str] :
+    def upload(self, file_path: str) -> Dict[str, str]:
         """
         Upload a file
 
@@ -42,12 +43,12 @@ class ApiControlInterface(ABC) :
                 'message': 'Message',
                 'hash':'Hash'
             }
-        """        
+        """
 
         raise NotImplementedError
 
     @abstractmethod
-    def get_status(self, hash:str) -> Dict[str, str] :
+    def get_status(self, hash: str) -> Dict[str, str]:
         """
         Get a conversion file status
 
@@ -61,12 +62,12 @@ class ApiControlInterface(ABC) :
             Dict[str, str]: {
                 'status':Bool
             }
-        """        
+        """
 
         raise NotImplementedError
-    
+
     @abstractmethod
-    def get_file(self, hash:str) -> Dict[str, str] :
+    def get_file(self, hash: str) -> Dict[str, str]:
         """
         Get file
 
@@ -78,15 +79,15 @@ class ApiControlInterface(ABC) :
 
         Returns:
             Dict[str, str]: {
-                'audio':'Audio path in the server', 
+                'audio':'Audio path in the server',
                 'filename':'Filename audio'
             }
-        """  
-      
+        """
+
         raise NotImplementedError
 
     @abstractmethod
-    def delete_file(self, hash:str) -> None:
+    def delete_file(self, hash: str) -> None:
         """Delete file on server
 
         Args:
@@ -94,5 +95,5 @@ class ApiControlInterface(ABC) :
 
         Raises:
             NotImplementedError: NotImplementedError
-        """        
+        """
         raise NotImplementedError()

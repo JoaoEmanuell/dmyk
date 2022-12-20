@@ -3,7 +3,7 @@ from typing import Dict
 
 from requests import get, post
 
-from ..interfaces import ApiControlInterface
+from .interfaces import ApiControlInterface
 
 class ApiControl(ApiControlInterface) :
     def __init__(self) -> None :

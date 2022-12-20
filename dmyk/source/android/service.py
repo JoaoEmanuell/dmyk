@@ -1,4 +1,4 @@
-from ..interfaces import ServiceInterface
+from .interfaces import ServiceInterface
 
 class Service(ServiceInterface):
     def __init__(self, platform: str='') -> None:

@@ -1,7 +1,7 @@
 from abc import ABC, abstractclassmethod
 
-class DownloadContentInterface(ABC):
 
+class DownloadContentInterface(ABC):
     @abstractclassmethod
     def download(cls, url: str) -> bytes:
         raise NotImplementedError
