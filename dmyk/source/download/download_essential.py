@@ -77,7 +77,7 @@ class DownloadEssential(DownloadEssentialInterface):
         self.__message.set_out("Removendo arquivo antigo")
         remove(file_path)
         self.__message.set_out("Download do arquivo convertido iniciado!")
-        file = self.__download_content.download(converted["audio"])
+        file = self.__download_content.download(converted["audio"], self.__message)
 
         # Save File
 
