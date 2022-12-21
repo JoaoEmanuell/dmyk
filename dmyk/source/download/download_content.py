@@ -2,24 +2,24 @@ from io import BytesIO
 from urllib.request import Request, urlopen
 from os.path import join
 
-from .message import Message
-from .interfaces import DownloadContentInterface
+from .interfaces import DownloadContentInterface, MessageInterface
+
 
 class DownloadContent(DownloadContentInterface):
     @classmethod
-    def download(cls, url: str) -> bytes:
-        request = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+    def download(cls, url: str, message: MessageInterface) -> bytes:
+        request = Request(url, headers={"User-Agent": "Mozilla/5.0"})
 
-        with urlopen(request) as response: 
-            file: bytes = b''
-            length = response.getheader('content-Length')
-            block_size = 1000000 # 1MB Default
+        with urlopen(request) as response:
+            file: bytes = b""
+            length = response.getheader("content-Length")
+            block_size = 1000000  # 1MB Default
 
             if length:
                 length = int(length)
                 block_size = max(4096, length // 20)
-            
-            print(f'Len: {length} blocksize: {block_size}')
+
+            print(f"Len: {length} blocksize: {block_size}")
 
             buffer_all = BytesIO()
             size = 0
@@ -35,20 +35,13 @@ class DownloadContent(DownloadContentInterface):
                 size += len(buffer_now)
 
                 if length:
-                    # percent = int((size / length) * 100)
-                    # print(f'{percent}%')
-                    # print(f'Actual: {size} total: {length}')
-                    # progress_bar(int(size), int(length))
-                    Message.set_progressbar(int(length), int(size))
-            
-            # print(f"Buffer all size: {len(buffer_all.getvalue())}")
+                    message.set_progressbar(int(length), int(size))
 
             return file
 
     @classmethod
-    def save_file(cls, name: str='', dir: str='.', content: bytes=b'') \
-        -> None:
+    def save_file(cls, name: str = "", dir: str = ".", content: bytes = b"") -> None:
         print(name, dir)
         print(join(dir, name))
-        with open(join(dir, name), 'wb') as f:
+        with open(join(dir, name), "wb") as f:
             f.write(content)
