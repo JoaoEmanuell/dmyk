@@ -1,6 +1,13 @@
 # Android import
 
-from .android import Android, Service, service, Intent, ServiceInterface
+from .android import (
+    Android,
+    Service,
+    service,
+    Intent,
+    ServiceInterface,
+    IntentInterface,
+)
 
 # Api control
 

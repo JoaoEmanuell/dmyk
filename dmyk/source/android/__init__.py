@@ -5,4 +5,4 @@ from .intent import Intent
 
 # Interfaces
 
-from .interfaces import ServiceInterface
+from .interfaces import ServiceInterface, IntentInterface

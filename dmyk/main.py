@@ -8,20 +8,26 @@ from kivy.utils import platform
 
 # Local imports
 from source import (
-    Intent,
     Android,
-    service,
     ApiControl,
-    ui_drop_down_obj,
-    UiDropDownInterface,
-    CustomThreadInterface,
+    ApiControlInterface,
     CustomThread,
-    DownloadVideo,
+    CustomThreadInterface,
+    download_essential,
+    DownloadEssentialInterface,
+    DownloadManager,
+    DownloadManagerInterface,
     DownloadPlaylist,
+    DownloadPlaylistInterface,
+    DownloadVideo,
+    DownloadVideoInterface,
+    Intent,
+    IntentInterface,
     Message,
     MessageInterface,
-    DownloadManager,
-    download_essential,
+    service,
+    ui_drop_down_obj,
+    UiDropDownInterface,
 )
 
 
@@ -31,16 +37,26 @@ class Tela(Screen):
         message_class: MessageInterface,
         custom_thread: CustomThreadInterface,
         drop_down: UiDropDownInterface,
+        api_control: ApiControlInterface,
+        download_manager: DownloadManagerInterface,
+        download_video: DownloadVideoInterface,
+        download_playlist: DownloadPlaylistInterface,
+        download_essential: DownloadEssentialInterface,
+        intent: IntentInterface,
         **kwargs,
     ):
 
         super().__init__(**kwargs)
-        self.ids.link.text = Intent(platform).get_intent_text()
+        self.ids.link.text = intent(platform).get_intent_text()
         self.__message_class = message_class
         self.__custom_thread = custom_thread
         self.__custom_thread_backup = custom_thread()
         self.__drop_down = drop_down
-        ApiControl()
+        api_control()
+        self.__download_manager = download_manager
+        self.__download_video = download_video
+        self.__download_playlist = download_playlist
+        self.__download_essential = download_essential
 
     def main(self) -> None:
         try:
@@ -78,15 +94,15 @@ class Tela(Screen):
             url = str(self.ids.link.text)
 
             self.__custom_thread_backup.set_thread(
-                target=DownloadManager,
+                target=self.__download_manager,
                 args=(
                     url,
                     self.verify_mp3(),
                     self.__drop_down.get_text(),
-                    DownloadVideo,
-                    DownloadPlaylist,
-                    Message,
-                    download_essential,
+                    self.__download_video,
+                    self.__download_playlist,
+                    self.__message_class,
+                    self.__download_essential,
                 ),
             )
             self.__custom_thread_backup.start()
@@ -115,7 +131,17 @@ class Tela(Screen):
 
 class Main(App):
     def build(self) -> Screen:
-        return Tela(Message, CustomThread, ui_drop_down_obj)
+        return Tela(
+            Message,
+            CustomThread,
+            ui_drop_down_obj,
+            ApiControl,
+            DownloadManager,
+            DownloadVideo,
+            DownloadPlaylist,
+            download_essential,
+            Intent,
+        )
 
     def on_start(self):
         service.start_service()

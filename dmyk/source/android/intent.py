@@ -1,4 +1,7 @@
-class Intent:
+from .interfaces import IntentInterface
+
+
+class Intent(IntentInterface):
     # https://github.com/olivier-boesch/intent-demo-for-kivy/tree/c2c36a70d3ca15c792d7b8a1811a3482ba6fe6b1
     def __init__(self, platform: str) -> None:
         self.platform = platform
