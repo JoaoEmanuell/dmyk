@@ -29,7 +29,7 @@ from .thread import CustomThread, CustomThreadInterface
 
 # Ui
 
-from .ui import UiDropDown, ui_drop_down_obj
+from .ui import UiDropDown, UiDropDownInterface
 
 # Styles
 
@@ -37,4 +37,4 @@ from .styles import styles
 
 # Singleton
 
-from .singleton import download_essential
+from .singleton import download_essential, ui_drop_down_obj

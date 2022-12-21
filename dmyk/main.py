@@ -13,6 +13,7 @@ from source import (
     service,
     ApiControl,
     ui_drop_down_obj,
+    UiDropDownInterface,
     CustomThreadInterface,
     CustomThread,
     DownloadVideo,
@@ -29,6 +30,7 @@ class Tela(Screen):
         self,
         message_class: MessageInterface,
         custom_thread: CustomThreadInterface,
+        drop_down: UiDropDownInterface,
         **kwargs,
     ):
 
@@ -37,6 +39,7 @@ class Tela(Screen):
         self.__message_class = message_class
         self.__custom_thread = custom_thread
         self.__custom_thread_backup = custom_thread()
+        self.__drop_down = drop_down
         ApiControl()
 
     def main(self) -> None:
@@ -79,7 +82,7 @@ class Tela(Screen):
                 args=(
                     url,
                     self.verify_mp3(),
-                    ui_drop_down_obj.get_text(),
+                    self.__drop_down.get_text(),
                     DownloadVideo,
                     DownloadPlaylist,
                     Message,
@@ -106,13 +109,13 @@ class Tela(Screen):
             return True
 
     def show_drop_down(self) -> None:
-        ui_drop_down_obj.open(self.ids.mp4)
+        self.__drop_down.open(self.ids.mp4)
         self.ids.mp4.state = "down"
 
 
 class Main(App):
     def build(self) -> Screen:
-        return Tela(Message, CustomThread)
+        return Tela(Message, CustomThread, ui_drop_down_obj)
 
     def on_start(self):
         service.start_service()

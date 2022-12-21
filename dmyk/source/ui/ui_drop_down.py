@@ -1,8 +1,10 @@
 from kivy.uix.dropdown import DropDown
 from kivy.uix.togglebutton import ToggleButton
 
+from .interfaces import UiDropDownInterface
 
-class UiDropDown(DropDown):
+
+class UiDropDown(DropDown, UiDropDownInterface):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.__qualities = ("480p", "360p", "240p", "144p")
