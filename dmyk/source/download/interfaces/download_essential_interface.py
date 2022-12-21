@@ -14,7 +14,7 @@ class DownloadEssentialInterface(ABC):
         self,
         api_control: ApiControlInterface,
         download_content: DownloadContentInterface,
-        message: MessageInterface
+        message: MessageInterface,
     ) -> None:
         """Init
 
