@@ -43,7 +43,7 @@ class DownloadVideo(DownloadVideoInterface):
 
         self.__path = self.__download_essential._get_download_path()
 
-    def download_video(self) -> None:
+    def private__download_vídeo(self) -> None:
         self.__message.set_out(
             self.__templates_strings["start"] % ("do vídeo", self.__video.title)
         )
@@ -74,7 +74,7 @@ class DownloadVideo(DownloadVideoInterface):
                 self.__templates_strings["exists"] % ("Vídeo", self.__video.title)
             )
 
-    def download_audio(self) -> None:
+    def private_download_audio(self) -> None:
         self.__message.set_out(
             self.__templates_strings["start"] % ("da música", self.__video.title)
         )
@@ -118,6 +118,11 @@ class DownloadVideo(DownloadVideoInterface):
                 self.__templates_strings["exists"] % ("Música", self.__video.title)
             )
 
+    def download(self) -> None:
+        if self.__convert:
+            self.private_download_audio()
+        else:
+            self.private__download_vídeo()
 
 def progress(stream: Stream, chunk: bytes, bytes_remaining: int) -> None:
     """from .pytube.cli"""
