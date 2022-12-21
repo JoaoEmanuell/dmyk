@@ -124,6 +124,7 @@ class DownloadVideo(DownloadVideoInterface):
         else:
             self.private__download_vídeo()
 
+
 def progress(stream: Stream, chunk: bytes, bytes_remaining: int) -> None:
     """from .pytube.cli"""
     from .message import Message

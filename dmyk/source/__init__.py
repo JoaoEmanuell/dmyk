@@ -9,8 +9,18 @@ from .api import ApiControl, ApiControlInterface
 # Download
 
 from .download import (
-    DownloadContent, DownloadEssential, DownloadPlaylist, DownloadVideo,
-    Message, DownloadManager, DownloadPlaylistInterface, DownloadContentInterface, DownloadEssentialInterface, DownloadManagerInterface, DownloadVideoInterface, MessageInterface
+    DownloadContent,
+    DownloadEssential,
+    DownloadPlaylist,
+    DownloadVideo,
+    Message,
+    DownloadManager,
+    DownloadPlaylistInterface,
+    DownloadContentInterface,
+    DownloadEssentialInterface,
+    DownloadManagerInterface,
+    DownloadVideoInterface,
+    MessageInterface,
 )
 
 # Custom thread

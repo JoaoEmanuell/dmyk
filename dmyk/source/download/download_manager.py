@@ -9,10 +9,11 @@ from .interfaces import (
     DownloadPlaylistInterface,
     MessageInterface,
     DownloadVideoInterface,
+    DownloadManagerInterface,
 )
 
 
-class DownloadManager:
+class DownloadManager(DownloadManagerInterface):
     def __init__(
         self,
         link: str,
@@ -36,10 +37,11 @@ class DownloadManager:
         self.main()
 
     def private__verify_url(self) -> bool:
+        """Verify if is a YouTube url"""
         verify_tuple_regex = (
             r"^(https:\/\/www.youtube.com\/)",  # domain full
             r"^(https:\/\/youtu.be\/)",  # domain short
-            r"^(https:\/\/youtube.com\/)",  # other domain [self.__playlist shared]
+            r"^(https:\/\/youtube.com\/)",  # other domain [playlist shared]
         )
 
         for verify in verify_tuple_regex:
@@ -49,7 +51,8 @@ class DownloadManager:
         return False
 
     def private__verify_playlist(self) -> bool:
-        verify_url = findall(r"(self.__playlist\?list=)", self.__link)
+        """Verify if is a playlist url"""
+        verify_url = findall(r"(playlist\?list=)", self.__link)
         if len(verify_url) != 0:
             return True
         else:
@@ -59,39 +62,27 @@ class DownloadManager:
 
         print("Iniciando o download")
         try:
-            obj_dict = {
-                "playlist": [
-                    self.__playlist,
-                    "playlist",
-                    self.__playlist.download_playlist,
-                ],
-                "vídeo": [self.__video, "vídeo", self.__video.download_video],
-                "música": [self.__video, "música", self.__video.download_audio],
+            download_args_dict = {
+                "link": self.__link,
+                "mp3": self.__mp3,
+                "quality": self.__quality,
+                "message": self.__message,
+                "download_essential": self.__download_essential,
             }
-            
+
             if self.private__verify_url():
                 self.__download_essential.create_directory("Música")
                 if self.private__verify_playlist():
                     print("Verificado playlist, iniciando o download da playlist")
-                    self.__playlist(
-                        self.__link, self.__mp3, self.__quality
-                    ).download_playlist(self.__video)
+                    self.__playlist(**download_args_dict).download_playlist(
+                        self.__video
+                    )
                 else:
                     print("Verificado vídeo!")
-                    if self.__mp3:
-                        self.set_dbt_style_text("stop")
-                        print("Iniciando download da música")
-                        self.__video(
-                            self.__link, self.__mp3, self.__quality
-                        ).download_audio()
-                        self.set_dbt_style_text()
-                    else:
-                        self.set_dbt_style_text("stop")
-                        print("Iniciando download do vídeo")
-                        self.__video(
-                            self.__link, self.__mp3, self.__quality
-                        ).download_video()
-                        self.set_dbt_style_text()
+                    self.set_dbt_style_text("stop")
+                    print("Iniciando download do vídeo")
+                    self.__video(**download_args_dict).download()
+                    self.set_dbt_style_text()
             else:
                 self.__message.set_out("Erro, url invalida!")
                 self.set_dbt_style_text()
@@ -102,5 +93,5 @@ class DownloadManager:
             print(f"ERROR:{Ex.with_traceback()}")
 
     def set_dbt_style_text(self, background_style: str = "default") -> None:
-        self.__message.set_dbt("Baixar Música ou self.__playlist")
+        self.__message.set_dbt("Baixar Música ou playlist")
         self.__message.set_ws("download_button", "background_color", background_style)

@@ -17,14 +17,14 @@ from .interfaces import (
 class DownloadPlaylist(DownloadPlaylistInterface):
     def __init__(
         self,
-        playlist_link: list,
-        convert_to_mp3: bool,
+        link: list,
+        mp3: bool,
         quality: str,
         message: MessageInterface,
         download_essential: DownloadEssentialInterface,
     ) -> None:
-        self.__playlist = Playlist(playlist_link)
-        self.__CONVERT = convert_to_mp3
+        self.__playlist: list[str] = Playlist(link)
+        self.__CONVERT = mp3
         self.__quality = quality
         self.__message = message
         self.__download_essential = download_essential
@@ -32,8 +32,11 @@ class DownloadPlaylist(DownloadPlaylistInterface):
     def download_playlist(self, download: DownloadVideoInterface):
         self.__message.set_out(f"Download da playlist iniciado!")
         for video in self.__playlist:
-            if self.__CONVERT:
-                download(video, self.__CONVERT, self.__quality).download_audio()
-            else:
-                download(video, self.__CONVERT, self.__quality).download_video()
+            download(
+                link=video,
+                mp3=self.__CONVERT,
+                quality=self.__quality,
+                message=self.__message,
+                download_essential=self.__download_essential,
+            ).download()
         self.__message.set_out("Download da Playlist concluído!")

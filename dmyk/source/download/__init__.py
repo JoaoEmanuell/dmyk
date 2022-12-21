@@ -7,4 +7,11 @@ from .message import Message
 
 # Interfaces
 
-from .interfaces import (MessageInterface, DownloadVideoInterface, DownloadContentInterface, DownloadManagerInterface, DownloadEssentialInterface, DownloadPlaylistInterface)
+from .interfaces import (
+    MessageInterface,
+    DownloadVideoInterface,
+    DownloadContentInterface,
+    DownloadManagerInterface,
+    DownloadEssentialInterface,
+    DownloadPlaylistInterface,
+)
