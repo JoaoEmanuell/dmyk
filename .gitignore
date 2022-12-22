@@ -121,3 +121,4 @@ include/
 pyvenv.cfg
 __pycache__/
 pytube/
+test_pytube/
