@@ -1,8 +1,7 @@
 - [dmyk](#dmyk)
 - [Starting](#starting)
   - [Virtual environment](#virtual-environment)
-  - [Installing dependencies](#installing-dependencies)
-- [Configurations](#configurations)
+- [Settings](#settings)
 
 [English](README.md) | [Português Brasil](./docs/README-br.md)
 
@@ -13,6 +12,9 @@ from YouTube, using pytube lib and kivy.
 # Starting
 
 ## Virtual environment
+
+**Note:** The project defaults to **python3.11.1**, so it is
+desirable to use it.
 
 Windows :
     
@@ -26,14 +28,14 @@ Linux | Mac :
 
     source ./bin/activate
 
-## Installing dependencies
+# Settings
 
-    pip install -r requirements.txt
+After creating and activating the virtual environment, run *_setup_local.py*, it
+will move packages to avoid errors, as well as installing Kivy to the
+python3.11 (since it has an installation error via pip), if
+have some error and install the requirements.txt
 
-# Configurations
-
-Specific directories need specific settings.
-
-Since kivy on android gives some [many] bugs related to the lack of modules, even though they are installed, it ends up being necessary to add them to the project manually, if they aren't, they can work on windows and Linux, but on android are almost certain to fail.
-
-To do this, just run *_setup_local.py* if it hasn't run before, it will move the directories, thus preventing bugs from occurring.
+If you want to install dependencies manually:
+    
+     pip install Cython==0.29.32 Kivy==2.1.0
+     pip install -r requirements.txt
