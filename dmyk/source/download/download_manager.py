@@ -79,19 +79,18 @@ class DownloadManager(DownloadManagerInterface):
                     )
                 else:
                     print("Verificado vídeo!")
-                    self.set_dbt_style_text("stop")
+                    self.set_dbt_style("stop")
                     print("Iniciando download do vídeo")
                     self.__video(**download_args_dict).download()
-                    self.set_dbt_style_text()
+                    self.set_dbt_style()
             else:
                 self.__message.set_out("Erro, url invalida!")
-                self.set_dbt_style_text()
+                self.set_dbt_style()
 
         except Exception as Ex:
             self.__message.set_out("YouTube quebrou o app:/")
-            self.set_dbt_style_text()
+            self.set_dbt_style()
             print(f"ERROR:{Ex.with_traceback()}")
 
-    def set_dbt_style_text(self, background_style: str = "default") -> None:
-        self.__message.set_dbt("Baixar Música ou playlist")
-        self.__message.set_ws("download_button", "background_color", background_style)
+    def set_dbt_style(self, background_style: str = "default") -> None:
+        self.__message.set_ws("download_button", background_style)

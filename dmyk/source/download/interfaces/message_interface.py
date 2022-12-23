@@ -33,14 +33,11 @@ class MessageInterface(ABC):
         raise NotImplementedError()
 
     @abstractclassmethod
-    def set_widget_style(
-        cls, widget_id: str = "", propriety: str = "", style: str = ""
-    ) -> None:
+    def set_widget_style(cls, widget_id: str = "", style: str = "") -> None:
         """Set widget style
 
         Args:
             widget_id (str): Id on widget. Defaults to ''.
-            propriety (str, optional): Propriety to change. Defaults to ''.
             style (str, optional): Style to apply, created on styles dict. Defaults to ''.
         """
         raise NotImplementedError()
@@ -74,12 +71,11 @@ class MessageInterface(ABC):
         raise NotImplementedError()
 
     @abstractclassmethod
-    def set_ws(cls, widget_id: str = "", propriety: str = "", style: str = "") -> None:
+    def set_ws(cls, widget_id: str = "", style: str = "") -> None:
         """Set widget style
 
         Args:
             widget_id (str): Id on widget. Defaults to ''.
-            propriety (str, optional): Propriety to change. Defaults to ''.
             style (str, optional): Style to apply, created on styles dict. Defaults to ''.
         """
         raise NotImplementedError()

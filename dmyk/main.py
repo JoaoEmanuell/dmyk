@@ -74,9 +74,7 @@ class Tela(Screen):
                     self.__message_class.set_out("Download cancelado!")
                     self.__message_class.set_pb(0, 0)
                     self.__message_class.set_dbt("Baixar Música ou playlist")
-                    self.__message_class.set_ws(
-                        "download_button", "background_color", "default"
-                    )
+                    self.__message_class.set_ws("download_button", "default")
                 else:
                     self.start_download()
             except (AssertionError, AttributeError):  # Case the thread not created

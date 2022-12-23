@@ -1,5 +1,7 @@
 """This module contains the Message class."""
 
+from typing import Any
+
 from kivy.app import App
 from kivy.clock import mainthread
 
@@ -26,15 +28,15 @@ class Message(MessageInterface):
 
     @classmethod
     @mainthread
-    def set_widget_style(
-        cls, widget_id: str = "", propriety: str = "", style: str = ""
-    ) -> None:
+    def set_widget_style(cls, widget_id: str = "", style: str = "") -> None:
 
-        setattr(
-            getattr(App.get_running_app().root.ids, widget_id),  # Get widget
-            propriety,
-            style_dict[widget_id][style],
-        )  # Set style on widget
+        styles: dict[str, Any] = style_dict[widget_id][style]
+        for key, value in styles.items():
+            setattr(
+                getattr(App.get_running_app().root.ids, widget_id),  # Get widget
+                key,
+                value,
+            )  # Set style on widget
 
     # Alias
 
@@ -51,6 +53,6 @@ class Message(MessageInterface):
         cls.set_download_button_text(text)
 
     @classmethod
-    def set_ws(cls, widget_id: str = "", propriety: str = "", style: str = "") -> None:
+    def set_ws(cls, widget_id: str = "", style: str = "") -> None:
 
-        cls.set_widget_style(widget_id, propriety, style)
+        cls.set_widget_style(widget_id, style)
