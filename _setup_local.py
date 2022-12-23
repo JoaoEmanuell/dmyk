@@ -1,10 +1,12 @@
-from os.path import exists, join
-from os import listdir, system
+from os.path import exists, join, basename
+from os import listdir, system, mkdir, remove
 from shutil import copytree
 from pathlib import Path
 from typing import Tuple
 from sys import version
 from re import search, compile, sub
+from io import BytesIO
+from urllib.request import Request, urlopen
 
 
 def verify_virtual_env(path: str) -> bool:
@@ -112,14 +114,90 @@ def install_kivy(absolute_path: str) -> None:
         system(f"pip install -r {absolute_path}requirements.txt")
 
 
+def download_save(url: str, save_path: str, name: str) -> None:
+    request = Request(url, headers={"User-Agent": "Mozilla/5.0"})
+
+    with urlopen(request) as response:
+        file: bytes = b""
+        length = response.getheader("content-Length")
+        block_size = 1000000  # 1MB Default
+
+        if length:
+            length = int(length)
+            block_size = max(4096, length // 20)
+
+        buffer_all = BytesIO()
+        size = 0
+
+        print("Start Download!")
+
+        while True:
+            buffer_now = response.read(block_size)
+            file += buffer_now
+
+            if not buffer_now:
+                break
+
+            buffer_all.write(buffer_now)
+            size += len(buffer_now)
+
+            if length:
+                percent = int((size / length) * 100)
+                print(f"{percent}%", end=" ")
+
+    print()
+    if not exists(save_path):
+        mkdir(save_path)
+
+    with open(join(save_path, name), "wb") as f:
+        f.write(file)
+
+
+def extract_module(path_to_file: str, path_to_save: str) -> None:
+    # Install dependencies
+    print("Start extract module!")
+    print("Install dependencies")
+
+    system("pip install pip-autoremove==0.10.0")
+    system("pip install py7zr==0.20.2")
+
+    print("Dependencies installed")
+    print("Start extract file")
+    from py7zr import SevenZipFile  # type: ignore
+
+    with SevenZipFile(path_to_file, mode="r") as zip:
+        zip.extractall(path_to_save)
+
+    print("Finished extract")
+
+    # Delete 7z
+
+    res = input(f"Delete {basename(path_to_file)}? [S/N] ").strip().upper()[0]
+    if res == "S":
+        remove(path_to_file)
+
+    # Uninstall dependencies
+    print("Uninstall dependencies")
+
+    system("pip-autoremove py7zr -y")
+    system("pip uninstall pip-autoremove -y")
+
+
 if __name__ == "__main__":
     absolute_path = join(Path().absolute(), "")
+    tmp_path = join(absolute_path, "tmp")
+    path_to_download = join(absolute_path, "dmyk", "source", "download")
+
     verify_virtual_env(join(absolute_path, "bin", "pip"))
 
-    path_to_download = join(absolute_path, "dmyk", "source", "download")
-    copy_external_modules(
-        absolute_path=absolute_path,
-        directories=(("pytube", path_to_download),),
+    pytube_7z_name = r"pytube.7z"
+    download_save(
+        url=r"https://github.com/JoaoEmanuell/pytube-dmyk/releases/download/v1.0.0/pytube.7z",
+        save_path=tmp_path,
+        name=pytube_7z_name,
+    )
+    extract_module(
+        path_to_file=join(tmp_path, pytube_7z_name), path_to_save=path_to_download
     )
 
     install_kivy(absolute_path)
