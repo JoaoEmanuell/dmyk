@@ -192,7 +192,7 @@ if __name__ == "__main__":
 
     pytube_7z_name = r"pytube.7z"
     download_save(
-        url=r"https://github.com/JoaoEmanuell/pytube-dmyk/releases/download/v1.0.0/pytube.7z",
+        url=r"https://github.com/JoaoEmanuell/pytube-dmyk/releases/download/v1.0-fix/pytube.7z",
         save_path=tmp_path,
         name=pytube_7z_name,
     )
