@@ -13,6 +13,7 @@ from source import (
     ApiControlInterface,
     CustomThread,
     CustomThreadInterface,
+    DownloadContent,
     download_essential,
     DownloadEssentialInterface,
     DownloadManager,
@@ -29,6 +30,7 @@ from source import (
     ui_drop_down_obj,
     UiDropDownInterface,
 )
+from version import __version__
 
 
 class Tela(Screen):
@@ -57,6 +59,9 @@ class Tela(Screen):
         self.__download_video = download_video
         self.__download_playlist = download_playlist
         self.__download_essential = download_essential
+        self.__open_webbrowser = False
+        self.__version_url = r"https://raw.githubusercontent.com/JoaoEmanuell/dmyk/master/dmyk/version.py"
+        self.verify_update()
 
     def main(self) -> None:
         try:
@@ -125,6 +130,41 @@ class Tela(Screen):
     def show_drop_down(self) -> None:
         self.__drop_down.open(self.ids.mp4)
         self.ids.mp4.state = "down"
+
+    def verify_update(self) -> None:
+        try:
+            urlopen(self.__version_url)
+        except URLError:
+            self.__message_class.set_out("Falha na verificação do update")
+        else:
+            online_version_file = DownloadContent.download(
+                self.__version_url, self.__message_class
+            ).decode("utf-8")
+            online_version = online_version_file.rsplit("\n")[0]
+            if online_version != f'__version__ = "{__version__}"':
+                self.__message_class.set_out(
+                    'O aplicativo está desatualizado!\nClique aqui ou acesse: \n"https://joaoemanuell.github.io/dmyk/"\nPara obter a versão mais recente!'
+                )
+                self.__open_webbrowser = True
+            self.__message_class.set_pb(0, 0)
+
+    def touch_output(self) -> None:
+        if self.__open_webbrowser:
+            if platform == "linux" or platform == "win":
+                from webbrowser import open
+
+                open("https://joaoemanuell.github.io/dmyk/")
+            elif platform == "android":
+                from jnius import autoclass
+
+                PythonActivity = autoclass("org.kivy.android.PythonActivity")
+                Intent = autoclass("android.content.Intent")
+                Uri = autoclass("android.net.Uri")
+                intent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://joaoemanuell.github.io/dmyk/"),
+                )
+                PythonActivity.mActivity.startActivity(intent)
 
 
 class Main(App):
