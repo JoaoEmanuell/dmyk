@@ -15,7 +15,7 @@ class UiDropDown(DropDown, UiDropDownInterface):
 
     def __create_ui(self) -> None:
         buttons_group = "drop_down_quality"
-        button_ui_arg = {"size_hint_y": None, "height": 80}
+        button_ui_arg = {"size_hint_y": None, "height": self.height * 1}
         btn_720 = ToggleButton(
             text="720p", group=buttons_group, state="down", **button_ui_arg
         )
