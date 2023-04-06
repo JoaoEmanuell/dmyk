@@ -61,6 +61,7 @@ class DownloadManager(DownloadManagerInterface):
     def main(self) -> None:
 
         print("Iniciando o download")
+        self.set_dbt_style("stop")
         try:
             download_args_dict = {
                 "link": self.__link,
