@@ -4,15 +4,13 @@
     BoxLayout:
         orientation: 'vertical'
         id: box
-        BlueLabel:
-            id: start
-            text: 'Insira a url no campo abaixo'
-            font_size: 50
-            size_hint_y: None
-            width: 20
         TextInput:
             id: link
-            font_size: 30
+            hint_text: 'Link do vídeo ou playlist'
+            multiline: True
+            font_size: self.height * 0.12
+            halign: 'center'
+            padding: [0, self.height * 0.4, 0, 0]
         BoxLayout:
             orientation: 'horizontal'
             id: format
@@ -34,14 +32,17 @@
         BlueLabel:
             id: output
             text: ''
-            font_size: 40
-            on_touch_down: root.touch_output()
+            on_touch_down: root.output_update()
         ProgressBar:
             id: progressbar
             max: 100
             value: 0
 
 <BlueLabel@Label>:
+    multiline: True
+    font_size: self.height * 0.15
+    text_size: self.width, None
+    halign: 'center'
     canvas.before:
         Color:
             rgba: 0.27, 0.79, 0.93, 0.9

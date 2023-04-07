@@ -1,6 +1,7 @@
 # Global imports
 from urllib.error import URLError
-from urllib.request import urlopen
+from urllib.request import urlopen, Request
+from socket import timeout
 
 from kivy.app import App
 from kivy.uix.screenmanager import Screen
@@ -59,17 +60,20 @@ class Tela(Screen):
         self.__download_video = download_video
         self.__download_playlist = download_playlist
         self.__download_essential = download_essential
+
+        # Update
+
         self.__open_webbrowser = False
         self.__version_url = r"https://raw.githubusercontent.com/JoaoEmanuell/dmyk/master/dmyk/version.py"
         self.verify_update()
 
     def main(self) -> None:
         try:
-            urlopen("https://www.youtube.com")
-        except URLError:
+            request = Request("https://www.youtube.com")
+            urlopen(request, timeout=3)
+        except (URLError, timeout):
             self.__message_class.set_out(
-                "Sua conexão de internet está \
-                indisponível, por favor tente novamente"
+                "Sua conexão de internet está indisponível, por favor tente novamente!"
             )
         else:
             try:
@@ -78,8 +82,8 @@ class Tela(Screen):
                     self.__custom_thread_backup.join()
                     self.__message_class.set_out("Download cancelado!")
                     self.__message_class.set_pb(0, 0)
-                    self.__message_class.set_dbt("Baixar Música ou playlist")
                     self.__message_class.set_ws("download_button", "default")
+                    print("Default button main")
                 else:
                     self.start_download()
             except (AssertionError, AttributeError):  # Case the thread not created
@@ -109,13 +113,12 @@ class Tela(Screen):
                 ),
             )
             self.__custom_thread_backup.start()
-            self.__message_class.set_dbt("Parar Download")
 
-        except Exception as erro:
+        except Exception as err:
             self.__message_class.set_out(
-                f"Alguma coisa deu errado!\nPor favor \
-                insira uma nova url\nTente novamente!\n {erro}"
+                f"Alguma coisa deu errado!\nPor favor insira uma nova url\nE tente novamente!\n"
             )
+            print(err)
 
     def verify_mp3(self) -> bool:
         mp3 = self.ids.mp3.state
@@ -133,10 +136,9 @@ class Tela(Screen):
 
     def verify_update(self) -> None:
         try:
-            urlopen(self.__version_url)
-        except URLError:
-            self.__message_class.set_out("Falha na verificação do update")
-        else:
+            # Test connection
+            request = Request(self.__version_url)
+            urlopen(request, timeout=3)
             online_version_file = DownloadContent.download(
                 self.__version_url, self.__message_class
             ).decode("utf-8")
@@ -147,13 +149,19 @@ class Tela(Screen):
                 )
                 self.__open_webbrowser = True
             self.__message_class.set_pb(0, 0)
+        except (URLError, timeout):
+            self.__message_class.set_out("Falha na verificação do update!")
+        except Exception as err:
+            self.__message_class.set_out('Falha na verificação do update!')
+            print(f'Update verification error: {err}')
 
-    def touch_output(self) -> None:
+    def output_update(self) -> None:
         if self.__open_webbrowser:
+            dmyk_url = r'https://joaoemanuell.github.io/dmyk/'
             if platform == "linux" or platform == "win":
                 from webbrowser import open
 
-                open("https://joaoemanuell.github.io/dmyk/")
+                open(dmyk_url)
             elif platform == "android":
                 from jnius import autoclass
 
@@ -162,7 +170,7 @@ class Tela(Screen):
                 Uri = autoclass("android.net.Uri")
                 intent = Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse("https://joaoemanuell.github.io/dmyk/"),
+                    Uri.parse(dmyk_url),
                 )
                 PythonActivity.mActivity.startActivity(intent)
 
