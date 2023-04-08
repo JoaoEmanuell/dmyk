@@ -12,7 +12,7 @@ from kivy.utils import platform
 from .interfaces import DownloadEssentialInterface
 from ..api import ApiControlInterface
 from .interfaces.download_content_interface import DownloadContentInterface
-from .interfaces.message_interface import MessageInterface
+from source.utils import MessageInterface
 from .pytube.streams import Stream
 
 

@@ -13,8 +13,8 @@ from .pytube import YouTube, Stream
 from .interfaces import (
     DownloadVideoInterface,
     DownloadEssentialInterface,
-    MessageInterface,
 )
+from source.utils import MessageInterface
 
 
 class DownloadVideo(DownloadVideoInterface):

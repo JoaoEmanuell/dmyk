@@ -20,14 +20,12 @@ from .download import (
     DownloadEssential,
     DownloadPlaylist,
     DownloadVideo,
-    Message,
     DownloadManager,
     DownloadPlaylistInterface,
     DownloadContentInterface,
     DownloadEssentialInterface,
     DownloadManagerInterface,
     DownloadVideoInterface,
-    MessageInterface,
 )
 
 # Custom thread
@@ -45,3 +43,7 @@ from .styles import styles
 # Singleton
 
 from .singleton import download_essential, ui_drop_down_obj
+
+# Utils
+
+from .utils import Message, MessageInterface

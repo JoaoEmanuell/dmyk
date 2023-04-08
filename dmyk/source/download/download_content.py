@@ -2,7 +2,8 @@ from io import BytesIO
 from urllib.request import Request, urlopen
 from os.path import join
 
-from .interfaces import DownloadContentInterface, MessageInterface
+from .interfaces import DownloadContentInterface
+from source.utils import MessageInterface
 
 
 class DownloadContent(DownloadContentInterface):

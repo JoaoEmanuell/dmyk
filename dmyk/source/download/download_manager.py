@@ -7,10 +7,10 @@ from re import findall
 from .interfaces import (
     DownloadEssentialInterface,
     DownloadPlaylistInterface,
-    MessageInterface,
     DownloadVideoInterface,
     DownloadManagerInterface,
 )
+from source.utils import MessageInterface
 
 
 class DownloadManager(DownloadManagerInterface):

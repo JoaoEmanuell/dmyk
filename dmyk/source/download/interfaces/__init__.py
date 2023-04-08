@@ -3,4 +3,3 @@ from .download_essential_interface import DownloadEssentialInterface
 from .download_manager_interface import DownloadManagerInterface
 from .download_playlist_interface import DownloadPlaylistInterface
 from .download_video_interface import DownloadVideoInterface
-from .message_interface import MessageInterface

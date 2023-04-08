@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from .message_interface import MessageInterface
+from source.utils import MessageInterface
 from .download_essential_interface import DownloadEssentialInterface
 
 

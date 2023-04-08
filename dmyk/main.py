@@ -3,7 +3,8 @@ from urllib.error import URLError
 from urllib.request import urlopen, Request
 from socket import timeout
 
-from kivy.app import App
+# from kivy.app import App
+from kivymd.app import MDApp
 from kivy.uix.screenmanager import Screen
 from kivy.utils import platform
 
@@ -91,7 +92,7 @@ class Tela(Screen):
 
     def start_download(self):
         self.__message_class.set_out("")
-        self.ids.progressbar.value = 0
+        self.__message_class.set_pb(0, 0)
 
         # Set to None to restart the thread without this case treading error
 
@@ -152,12 +153,12 @@ class Tela(Screen):
         except (URLError, timeout):
             self.__message_class.set_out("Falha na verificação do update!")
         except Exception as err:
-            self.__message_class.set_out('Falha na verificação do update!')
-            print(f'Update verification error: {err}')
+            self.__message_class.set_out("Falha na verificação do update!")
+            print(f"Update verification error: {err}")
 
     def output_update(self) -> None:
         if self.__open_webbrowser:
-            dmyk_url = r'https://joaoemanuell.github.io/dmyk/'
+            dmyk_url = r"https://joaoemanuell.github.io/dmyk/"
             if platform == "linux" or platform == "win":
                 from webbrowser import open
 
@@ -175,7 +176,7 @@ class Tela(Screen):
                 PythonActivity.mActivity.startActivity(intent)
 
 
-class Main(App):
+class Main(MDApp):
     def build(self) -> Screen:
         return Tela(
             Message,
