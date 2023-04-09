@@ -42,7 +42,7 @@ from .styles import styles
 
 # Singleton
 
-from .singleton import download_essential, ui_drop_down_obj
+from .singleton import download_essential
 
 # Utils
 

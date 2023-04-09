@@ -2,64 +2,70 @@
 #:import Metrics kivy.metrics
 
 <Tela>:
-    BoxLayout:
+    MDBoxLayout:
         orientation: 'vertical'
         id: box
-        TextInput:
+        md_bg_color: app.theme_cls.primary_color
+        MDTextFieldRect:
             id: link
             hint_text: 'Link do vídeo ou playlist'
             multiline: True
-            # font_size: self.height * 0.12
-            font_size: Metrics.dp(20)
+            font_size: "20dp"
             halign: 'center'
+            mode: "rectangle"
             padding: [0, self.height * 0.4, 0, 0]
-        BoxLayout:
-            orientation: 'horizontal'
-            id: format
-            size_hint_y: None
-            height: Metrics.dp(120)
-            ToggleButton:
-                id: mp3
-                text: 'MP3'
-                group: 'format'
-            ToggleButton:
-                id: mp4
-                text: 'MP4'
-                group: 'format'
-                on_release: root.show_drop_down()
-        Button:
-            id: download_button
-            text: 'Baixar Música ou playlist'
-            on_release: root.main()
+        CenterBoxLayout:
+            spacing: "10dp"
+            orientation: 'vertical'
+            padding: [20, 20]
+            CenterBoxLayout:
+                orientation: 'horizontal'
+                id: format
+                spacing: "5dp"
+                CustomToggleButton:
+                    id: mp3
+                    text: 'MP3'
+                    group: 'format'
+                    on_release: root.mp3_button_selected()
+                CustomToggleButton:
+                    id: mp4
+                    text: 'MP4'
+                    group: 'format'
+                    on_release: root.show_drop_down()
+            CenterBoxLayout:
+                MDRoundFlatButton:
+                    md_bg_color: 'lightblue'
+                    id: download_button
+                    text: 'Baixar Música ou playlist'
+                    halign: 'center'
+                    valign: 'center'
+                    on_release: root.main()
+                    text_color: "black"
+                    theme_text_color: "ContrastParentBackground"
         BlueLabel:
             id: output
             text: ''
             on_touch_down: root.output_update()
-        BoxLayout:
-            padding: [0, 55, 0, 55]
-            canvas.before:
-                Color:
-                    rgba: 0.27, 0.79, 0.99, 0.9
-                Rectangle:
-                    size: self.size
-                    pos: self.pos
         
-            MDProgressBar:
-                id: test
-                color: 0.5, 1, 0, 1
-                max: 100
-                value: 50
             
-
-<BlueLabel@Label>:
+<BlueLabel@MDLabel>:
     multiline: True
-    #font_size: self.height * 0.15
-    font_size: Metrics.dp(20)
+    font_size: "20dp"
     text_size: self.width, None
     halign: 'center'
-    canvas.before:
-        Color:
-            rgba: 0.27, 0.79, 0.93, 0.9
-        Rectangle:
-            size: self.size
-            pos: self.pos
+    theme_text_color: "Custom"
+    text_color: "white"
+    font_style: "Body1"
+    md_bg_color: 0.27, 0.79, 0.93, 0.9
+
+<CustomToggleButton@MDRoundFlatButton+MDToggleButton>:
+    md_bg_color: "lightblue"
+    text_color: "black"
+    background_normal: "lightblue"
+    background_down: "cyan"
+    font_color_normal: "black"
+    font_color_down: "black"
+    
+<CenterBoxLayout@MDBoxLayout>:
+    adaptive_size: True
+    pos_hint: {"center_x": .5, "center_y": .5}

@@ -29,7 +29,7 @@ from source import (
     Message,
     MessageInterface,
     service,
-    ui_drop_down_obj,
+    UiDropDown,
     UiDropDownInterface,
 )
 from version import __version__
@@ -51,11 +51,18 @@ class Tela(Screen):
     ):
 
         super().__init__(**kwargs)
+
         self.ids.link.text = intent(platform).get_intent_text()
         self.__message_class = message_class
         self.__custom_thread = custom_thread
         self.__custom_thread_backup = custom_thread()
-        self.__drop_down = drop_down
+
+        # Drop Down
+
+        self.__drop_down = drop_down()
+        self.__drop_down.caller = self.ids.mp4
+        self.__drop_down.create_ui(self.set_mp4_text)
+
         api_control()
         self.__download_manager = download_manager
         self.__download_video = download_video
@@ -132,8 +139,15 @@ class Tela(Screen):
             return True
 
     def show_drop_down(self) -> None:
-        self.__drop_down.open(self.ids.mp4)
+        self.__drop_down.open()
         self.ids.mp4.state = "down"
+
+    def set_mp4_text(self, *args, **kwargs) -> None:
+        self.ids.mp4.text = self.__drop_down.get_text()
+        self.ids.mp4.state = "down"
+
+    def mp3_button_selected(self) -> None:
+        self.ids.mp4.text = "MP4"
 
     def verify_update(self) -> None:
         try:
@@ -178,10 +192,13 @@ class Tela(Screen):
 
 class Main(MDApp):
     def build(self) -> Screen:
+        self.theme_cls.theme_style = "Dark"
+        self.theme_cls.primary_palette = "LightBlue"
+        self.theme_cls.primary_hue = "500"
         return Tela(
             Message,
             CustomThread,
-            ui_drop_down_obj,
+            UiDropDown,
             ApiControl,
             DownloadManager,
             DownloadVideo,
