@@ -9,9 +9,9 @@ from .pytube import Playlist
 from .interfaces import (
     DownloadPlaylistInterface,
     DownloadEssentialInterface,
-    MessageInterface,
     DownloadVideoInterface,
 )
+from source.utils import MessageInterface
 
 
 class DownloadPlaylist(DownloadPlaylistInterface):

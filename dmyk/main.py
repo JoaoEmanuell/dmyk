@@ -3,7 +3,8 @@ from urllib.error import URLError
 from urllib.request import urlopen, Request
 from socket import timeout
 
-from kivy.app import App
+# from kivy.app import App
+from kivymd.app import MDApp
 from kivy.uix.screenmanager import Screen
 from kivy.utils import platform
 
@@ -28,7 +29,7 @@ from source import (
     Message,
     MessageInterface,
     service,
-    ui_drop_down_obj,
+    UiDropDown,
     UiDropDownInterface,
 )
 from version import __version__
@@ -50,11 +51,18 @@ class Tela(Screen):
     ):
 
         super().__init__(**kwargs)
+
         self.ids.link.text = intent(platform).get_intent_text()
         self.__message_class = message_class
         self.__custom_thread = custom_thread
         self.__custom_thread_backup = custom_thread()
-        self.__drop_down = drop_down
+
+        # Drop Down
+
+        self.__drop_down = drop_down()
+        self.__drop_down.caller = self.ids.mp4
+        self.__drop_down.create_ui(self.set_mp4_text)
+
         api_control()
         self.__download_manager = download_manager
         self.__download_video = download_video
@@ -91,7 +99,7 @@ class Tela(Screen):
 
     def start_download(self):
         self.__message_class.set_out("")
-        self.ids.progressbar.value = 0
+        self.__message_class.set_pb(0, 0)
 
         # Set to None to restart the thread without this case treading error
 
@@ -131,8 +139,15 @@ class Tela(Screen):
             return True
 
     def show_drop_down(self) -> None:
-        self.__drop_down.open(self.ids.mp4)
+        self.__drop_down.open()
         self.ids.mp4.state = "down"
+
+    def set_mp4_text(self, *args, **kwargs) -> None:
+        self.ids.mp4.text = self.__drop_down.get_text()
+        self.ids.mp4.state = "down"
+
+    def mp3_button_selected(self) -> None:
+        self.ids.mp4.text = "MP4"
 
     def verify_update(self) -> None:
         try:
@@ -152,12 +167,12 @@ class Tela(Screen):
         except (URLError, timeout):
             self.__message_class.set_out("Falha na verificação do update!")
         except Exception as err:
-            self.__message_class.set_out('Falha na verificação do update!')
-            print(f'Update verification error: {err}')
+            self.__message_class.set_out("Falha na verificação do update!")
+            print(f"Update verification error: {err}")
 
     def output_update(self) -> None:
         if self.__open_webbrowser:
-            dmyk_url = r'https://joaoemanuell.github.io/dmyk/'
+            dmyk_url = r"https://joaoemanuell.github.io/dmyk/"
             if platform == "linux" or platform == "win":
                 from webbrowser import open
 
@@ -175,12 +190,15 @@ class Tela(Screen):
                 PythonActivity.mActivity.startActivity(intent)
 
 
-class Main(App):
+class Main(MDApp):
     def build(self) -> Screen:
+        self.theme_cls.theme_style = "Dark"
+        self.theme_cls.primary_palette = "LightBlue"
+        self.theme_cls.primary_hue = "500"
         return Tela(
             Message,
             CustomThread,
-            ui_drop_down_obj,
+            UiDropDown,
             ApiControl,
             DownloadManager,
             DownloadVideo,

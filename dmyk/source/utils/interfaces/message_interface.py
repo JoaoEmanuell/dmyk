@@ -14,12 +14,15 @@ class MessageInterface(ABC):
         raise NotImplementedError()
 
     @abstractclassmethod
-    def set_progressbar(cls, max: int = 100, percent: int = 0) -> None:
+    def set_progressbar(
+        cls, max: int = 100, percent: int = 0, bar_type: str = "determinate"
+    ) -> None:
         """Set progress bar
 
         Args:
             max (int): Max progress bar. Defaults to 100.
             percent (int): Actual percent on progress bar. Defaults to 0.
+            bar_type (str): Bar type, if 'determinate', the bar is a simple progress bar, if 'indeterminate', the bar is a spinner. Defaults to 'determinate'.
         """
         raise NotImplementedError()
 
@@ -52,12 +55,15 @@ class MessageInterface(ABC):
         raise NotImplementedError()
 
     @abstractclassmethod
-    def set_pb(cls, max: int = 100, percent: int = 0) -> None:
+    def set_pb(
+        cls, max: int = 100, percent: int = 0, bar_type: str = "determinate"
+    ) -> None:
         """Set progress bar alias
 
         Args:
             max (int): Max progress bar. Defaults to 100.
             percent (int): Actual percent on progress bar. Defaults to 0.
+            bar_type (str): Bar type, if 'determinate', the bar is a simple progress bar, if 'indeterminate', the bar is a spinner. Defaults to 'determinate'.
         """
         raise NotImplementedError()
 

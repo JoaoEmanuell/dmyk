@@ -7,10 +7,10 @@ from re import findall
 from .interfaces import (
     DownloadEssentialInterface,
     DownloadPlaylistInterface,
-    MessageInterface,
     DownloadVideoInterface,
     DownloadManagerInterface,
 )
+from source.utils import MessageInterface
 
 
 class DownloadManager(DownloadManagerInterface):
@@ -89,9 +89,14 @@ class DownloadManager(DownloadManagerInterface):
                 self.set_dbt_style()
 
         except Exception as Ex:
-            self.__message.set_out("YouTube quebrou o app:/")
-            self.set_dbt_style()
-            print(f"ERROR:{Ex.with_traceback()}")
+            if 'Exception while accessing title of ' in str(Ex):
+                self.__message.set_out('Erro ao obter o título do vídeo, tentando novamente!')
+                self.main()
+            else:
+                self.__message.set_out("YouTube quebrou o app:/")
+                self.set_dbt_style()
+                self.__message.set_pb(0, 0)
+                print(f"ERROR: {Ex.with_traceback()}")
 
     def set_dbt_style(self, background_style: str = "default") -> None:
         self.__message.set_ws("download_button", background_style)

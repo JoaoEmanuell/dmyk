@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 from ...api import ApiControlInterface
 from .download_content_interface import DownloadContentInterface
-from .message_interface import MessageInterface
+from source.utils import MessageInterface
 from ..pytube.streams import Stream
 
 

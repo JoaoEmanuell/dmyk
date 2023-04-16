@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 from .download_video_interface import DownloadVideoInterface
 from .download_playlist_interface import DownloadPlaylistInterface
-from .message_interface import MessageInterface
+from source.utils import MessageInterface
 from .download_essential_interface import DownloadEssentialInterface
 
 

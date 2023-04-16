@@ -1,6 +1,6 @@
 from abc import ABC, abstractclassmethod
 
-from .message_interface import MessageInterface
+from source.utils import MessageInterface
 
 
 class DownloadContentInterface(ABC):
