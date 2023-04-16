@@ -14,7 +14,7 @@ class UiDropDown(MDDropdownMenu, UiDropDownInterface):
         self.size_hint_y = None
         self.max_height = dp(300)
         self.__text = "720p"
-        self.width_mult = 1.25
+        self.width_mult = 1.5
         self.background_color = colors["Blue"]["700"]
         self.border_margin = dp(4)
         self.position = "center"
