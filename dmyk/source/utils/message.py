@@ -29,12 +29,9 @@ class Message(MessageInterface):
     ) -> None:
         main_box = App.get_running_app().root.ids.box
 
-        print(f"Max: {max} | Percent: {percent} | bar_type : {bar_type}")
-
         cls.pb_remove_spinner_bar(main_box)
 
         if bar_type == "indeterminate":
-            print("Indeterminate")
             cls.spinner_widget = MDSpinner(
                 size_hint=(None, None),
                 size=[dp(46), dp(46)],
