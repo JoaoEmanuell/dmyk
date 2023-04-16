@@ -15,10 +15,9 @@ class UiDropDown(MDDropdownMenu, UiDropDownInterface):
         self.max_height = dp(300)
         self.__text = "720p"
         self.width_mult = 1.25
-        self.background_color = colors['Blue']['700']
+        self.background_color = colors["Blue"]["700"]
         self.border_margin = dp(4)
-        self.position = 'center'
-        
+        self.position = "center"
 
     def create_ui(self, release_callback: Optional[Callable] = None) -> None:
         items = []
@@ -27,7 +26,7 @@ class UiDropDown(MDDropdownMenu, UiDropDownInterface):
                 "viewclass": "OneLineListItem",
                 "height": dp(56),
                 "text": f"{quality}",
-                "divider": 'Full',
+                "divider": "Full",
                 "divider_color": (1, 1, 1, 1),
                 "divider_height": 1,
                 "on_release": lambda x=f"{quality}": (
