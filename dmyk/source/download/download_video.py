@@ -31,7 +31,7 @@ class DownloadVideo(DownloadVideoInterface):
         self.__quality = quality
         self.__message = message
         self.__download_essential = download_essential
-        self.__message.set_pb(100, 0)
+        self.__message.set_pb(100, 0, "indeterminate")
 
         self.__templates_strings = {
             "start": "Iniciando o download %s \n%s\nAguarde um pouco!",
@@ -127,7 +127,7 @@ class DownloadVideo(DownloadVideoInterface):
 
 def progress(stream: Stream, chunk: bytes, bytes_remaining: int) -> None:
     """from .pytube.cli"""
-    from .message import Message
+    from source.utils import Message
 
     bytes_remaining = bytes_remaining // 1048576
     filesize = stream.filesize // 1048576
