@@ -4,4 +4,3 @@ from .ui import UiDropDown
 from .utils import Message
 
 download_essential = DownloadEssential(ApiControl(), DownloadContent, Message)
-ui_drop_down_obj = UiDropDown()
