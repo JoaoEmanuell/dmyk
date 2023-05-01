@@ -26,39 +26,6 @@ def verify_virtual_env(path: str) -> bool:
     raise FileNotFoundError("VIRTUAL ENV NOT FOUND!")
 
 
-def copy_external_modules(absolute_path: str, directories: Tuple[Tuple[str]]) -> None:
-    """Copy external modules
-
-    Args:
-        absolute_path (str): Absolute path to project
-        directories (Tuple[Tuple[str]]): Tuple of tuples, the first tuple is a
-        module to copy, the second tuple is a absolute path to destination the module.
-    """
-
-    path_to_directory_packages = join(
-        absolute_path, "lib", listdir(f"{absolute_path}lib")[0], "site-packages", ""
-    )
-
-    print(f"Python packages : {path_to_directory_packages}")
-
-    for directory in directories:
-
-        external_modules_path = join(absolute_path, directory[1])
-        print(f"Path to external: {external_modules_path}")
-
-        path = join(path_to_directory_packages, directory[0], "")
-
-        try:
-            copytree(path, join(external_modules_path, directory[0]), False, None)
-            print(f"Package {directory[0]} copied with success")
-        except FileNotFoundError:
-            print(f"Package not found : {directory[0]}")
-        except FileExistsError:
-            print(f"Exists : {directory[0]}")
-        except Exception as err:
-            print(f"ERR : {err}")
-
-
 def install_kivy(absolute_path: str) -> None:
     """Install kivy, used by python3.11 because error on install kivy
 
@@ -114,7 +81,7 @@ def install_kivy(absolute_path: str) -> None:
         system(f"pip install -r {absolute_path}requirements.txt")
 
 
-def download_save(url: str, save_path: str, name: str) -> None:
+def download(url: str) -> bytes:
     request = Request(url, headers={"User-Agent": "Mozilla/5.0"})
 
     with urlopen(request) as response:
@@ -144,8 +111,11 @@ def download_save(url: str, save_path: str, name: str) -> None:
             if length:
                 percent = int((size / length) * 100)
                 print(f"{percent}%", end=" ")
-
     print()
+    return file
+
+
+def save_file(file: bytes, save_path: str, name: str) -> None:
     if not exists(save_path):
         mkdir(save_path)
 
@@ -183,6 +153,17 @@ def extract_module(path_to_file: str, path_to_save: str) -> None:
     system("pip uninstall pip-autoremove -y")
 
 
+def get_url_to_pytube_dmyk() -> str:
+    # Get url to pytube dmyk 7z
+    from json import loads
+
+    file = download(
+        "https://api.github.com/repos/JoaoEmanuell/pytube-dmyk/releases/latest"
+    )
+    dictonary = loads(file)
+    return dictonary["assets"][0]["browser_download_url"]  # Download link to pytube 7z
+
+
 if __name__ == "__main__":
     absolute_path = join(Path().absolute(), "")
     tmp_path = join(absolute_path, "tmp")
@@ -191,8 +172,10 @@ if __name__ == "__main__":
     verify_virtual_env(join(absolute_path, "bin", "pip"))
 
     pytube_7z_name = r"pytube.7z"
-    download_save(
-        url=r"https://github.com/JoaoEmanuell/pytube-dmyk/releases/download/v1.0-fix/pytube.7z",
+    url = get_url_to_pytube_dmyk()
+    file = download(url)
+    save_file(
+        file=file,
         save_path=tmp_path,
         name=pytube_7z_name,
     )
