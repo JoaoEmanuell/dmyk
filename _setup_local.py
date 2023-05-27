@@ -142,26 +142,28 @@ def extract_module(path_to_file: str, path_to_save: str) -> None:
 
     # Delete 7z
 
-    res = input(f"Delete {basename(path_to_file)}? [S/N] ").strip().upper()[0]
-    if res == "S":
+    res = input(f"Delete {basename(path_to_file)}? [Y/N] ").strip().upper()[0]
+    if res == "Y":
         remove(path_to_file)
+    res = input("Uninstall dependencies? [Y/N] ").strip().upper()[0]
 
-    # Uninstall dependencies
-    print("Uninstall dependencies")
+    if res == "Y":
+        # Uninstall dependencies
+        print("Uninstall dependencies")
 
-    system("pip-autoremove py7zr -y")
-    system("pip uninstall pip-autoremove -y")
+        system("pip-autoremove py7zr -y")
+        system("pip uninstall pip-autoremove -y")
 
 
-def get_url_to_pytube_dmyk() -> str:
-    # Get url to pytube dmyk 7z
+def get_url_to_downloader_dmyk(repository: str) -> str:
+    # Get url to downloader dmyk 7z
     from json import loads
 
     file = download(
-        "https://api.github.com/repos/JoaoEmanuell/pytube-dmyk/releases/latest"
+        f"https://api.github.com/repos/JoaoEmanuell/{repository}/releases/latest"
     )
     dictonary = loads(file)
-    return dictonary["assets"][0]["browser_download_url"]  # Download link to pytube 7z
+    return dictonary["assets"][0]["browser_download_url"]  # Download link to 7z
 
 
 if __name__ == "__main__":
@@ -171,11 +173,27 @@ if __name__ == "__main__":
 
     verify_virtual_env(join(absolute_path, "bin", "pip"))
 
-    pytube_7z_name = r"pytube.7z"
-    url = get_url_to_pytube_dmyk()
-    file = download(url)
+    # Youtube-dl dmyk
+
+    youtube_dl_7z_name = r"youtube_dl.7z"
+    url_youtube_dl = get_url_to_downloader_dmyk("youtube-dl-dmyk")
+    file_youtube_dl = download(url_youtube_dl)
     save_file(
-        file=file,
+        file=file_youtube_dl,
+        save_path=tmp_path,
+        name=youtube_dl_7z_name,
+    )
+    extract_module(
+        path_to_file=join(tmp_path, youtube_dl_7z_name), path_to_save=path_to_download
+    )
+
+    # Pytube dmyk
+
+    pytube_7z_name = r"pytube.7z"
+    url_pytube = get_url_to_downloader_dmyk("pytube-dmyk")
+    file_pytube = download(url_pytube)
+    save_file(
+        file=file_pytube,
         save_path=tmp_path,
         name=pytube_7z_name,
     )
