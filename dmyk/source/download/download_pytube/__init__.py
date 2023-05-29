@@ -1,2 +1,2 @@
-from .download_playlist import DownloadPlaylist
-from .download_video import DownloadVideo
+from .download_playlist import PytubeDownloadPlaylist
+from .download_video import PytubeDownloadVideo

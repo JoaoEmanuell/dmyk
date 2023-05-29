@@ -4,7 +4,7 @@ from .download_manager import DownloadManager
 
 # Pytube
 
-from .download_pytube import DownloadPlaylist, DownloadVideo
+from .download_pytube import PytubeDownloadPlaylist, PytubeDownloadVideo
 
 # Interfaces
 

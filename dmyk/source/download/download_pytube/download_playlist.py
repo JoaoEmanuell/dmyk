@@ -14,7 +14,7 @@ from ..interfaces import (
 from source.utils import MessageInterface
 
 
-class DownloadPlaylist(DownloadPlaylistInterface):
+class PytubeDownloadPlaylist(DownloadPlaylistInterface):
     def __init__(
         self,
         link: list,

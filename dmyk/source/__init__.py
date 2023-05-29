@@ -18,8 +18,8 @@ from .api import ApiControl, ApiControlInterface
 from .download import (
     DownloadContent,
     DownloadEssential,
-    DownloadPlaylist,
-    DownloadVideo,
+    PytubeDownloadPlaylist,
+    PytubeDownloadVideo,
     DownloadManager,
     DownloadPlaylistInterface,
     DownloadContentInterface,
