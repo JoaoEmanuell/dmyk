@@ -89,8 +89,10 @@ class DownloadManager(DownloadManagerInterface):
                 self.set_dbt_style()
 
         except Exception as Ex:
-            if 'Exception while accessing title of ' in str(Ex):
-                self.__message.set_out('Erro ao obter o título do vídeo, tentando novamente!')
+            if "Exception while accessing title of " in str(Ex):
+                self.__message.set_out(
+                    "Erro ao obter o título do vídeo, tentando novamente!"
+                )
                 self.main()
             else:
                 self.__message.set_out("YouTube quebrou o app:/")

@@ -162,8 +162,8 @@ def get_url_to_downloader_dmyk(repository: str) -> str:
     file = download(
         f"https://api.github.com/repos/JoaoEmanuell/{repository}/releases/latest"
     )
-    dictonary = loads(file)
-    return dictonary["assets"][0]["browser_download_url"]  # Download link to 7z
+    dictionary = loads(file)
+    return dictionary["assets"][0]["browser_download_url"]  # Download link to 7z
 
 
 if __name__ == "__main__":

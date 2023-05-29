@@ -9,8 +9,8 @@ from time import sleep
 
 # Local imports
 
-from .pytube import YouTube, Stream
-from .interfaces import (
+from ..pytube import YouTube, Stream
+from ..interfaces import (
     DownloadVideoInterface,
     DownloadEssentialInterface,
 )
