@@ -24,7 +24,6 @@ class DownloadManager(DownloadManagerInterface):
         message: MessageInterface,
         download_essential: DownloadEssentialInterface,
     ) -> None:
-
         self.__link = str(link)
         self.__mp3 = bool(mp3)
         self.__quality = str(quality)
@@ -60,7 +59,6 @@ class DownloadManager(DownloadManagerInterface):
             return False
 
     def main(self) -> None:
-
         print("Iniciando o download")
         self.set_dbt_style("stop")
         try:
@@ -93,17 +91,14 @@ class DownloadManager(DownloadManagerInterface):
                 self.set_dbt_style()
 
         except Exception as Ex:
-            if self.__downloader_number != len(self.__video):
+            if self.__downloader_number < (len(self.__video) - 1):
                 self.__message.set_out(
                     f"Erro no método de download {self.__downloader_number}!\nTentando por outro método!"
                 )
 
                 self.__downloader_number += 1
 
-                print(
-                    f"ERROR DOWNLOADER {self.__downloader_number}: {Ex.with_traceback()}"
-                )
-
+                print(f"ERROR DOWNLOADER {self.__downloader_number}: {Ex}")
                 self.main()
             else:
                 self.__message.set_out("YouTube quebrou o app:/")

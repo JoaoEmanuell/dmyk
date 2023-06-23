@@ -6,6 +6,10 @@ from .download_manager import DownloadManager
 
 from .download_pytube import PytubeDownloadPlaylist, PytubeDownloadVideo
 
+# YoutubeDL
+
+from .download_youtube_dl import YoutubeDlDownloadVideo, YoutubeDLDownloadPlaylist
+
 # Interfaces
 
 from .interfaces import (

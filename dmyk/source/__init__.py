@@ -26,11 +26,18 @@ from .download import (
     DownloadEssentialInterface,
     DownloadManagerInterface,
     DownloadVideoInterface,
+    YoutubeDlDownloadVideo,
+    YoutubeDLDownloadPlaylist,
 )
 
 # Custom thread
 
-from .thread import CustomThread, CustomThreadInterface
+from .thread import (
+    CustomThread,
+    CustomThreadInterface,
+    MultiThread,
+    MultiThreadInterface,
+)
 
 # Ui
 
@@ -42,7 +49,7 @@ from .styles import styles
 
 # Singleton
 
-from .singleton import download_essential
+from .singleton import download_essential, multi_thread
 
 # Utils
 

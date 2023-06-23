@@ -67,3 +67,15 @@ class DownloadEssentialInterface(ABC):
             name (str): Name to directory
         """
         raise NotImplementedError()
+
+    @abstractmethod
+    def download_in_parts(self, url: str, headers: dict, parts: int = 1) -> None:
+        """Download in parts, used to download a file using parts download.
+        Start the download, download parts and union parts in one file.
+
+        Args:
+            url (str): download file url
+            headers (dict): headers to request
+            part (int, optional): number of parts to download. Defaults to 1.
+        """
+        raise NotImplementedError()

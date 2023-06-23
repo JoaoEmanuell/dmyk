@@ -60,7 +60,6 @@ class PytubeDownloadVideo(DownloadVideoInterface):
         if self.__download_essential.verify_if_file_not_exists(
             self.__convert, self.__stream, self.__path
         ):
-
             self.__message.set_out(
                 self.__templates_strings["download"] % ("do vídeo", self.__video.title)
             )
@@ -84,7 +83,6 @@ class PytubeDownloadVideo(DownloadVideoInterface):
         if self.__download_essential.verify_if_file_not_exists(
             self.__convert, self.__stream, self.__path
         ):
-
             self.__message.set_out(
                 self.__templates_strings["download"] % ("da música", self.__video.title)
             )
@@ -105,7 +103,6 @@ class PytubeDownloadVideo(DownloadVideoInterface):
                 print(f"ERR: {err.with_traceback()}")
 
             else:
-
                 self.__message.set_pb(100, 100)
 
                 self.__message.set_out(
@@ -113,7 +110,6 @@ class PytubeDownloadVideo(DownloadVideoInterface):
                 )
 
         else:
-
             self.__message.set_out(
                 self.__templates_strings["exists"] % ("Música", self.__video.title)
             )

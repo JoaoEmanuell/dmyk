@@ -26,10 +26,10 @@ class DownloadEssential(DownloadEssentialInterface):
         self.__api_control = api_control
         self.__download_content = download_content
         self.__message = message
+        self.__retrys = 0  # Download retrys
 
     def verify_if_file_not_exists(self, convert: bool, file: Stream, path: str) -> bool:
         if convert:
-
             filename = str(file.default_filename)
             filename = filename.replace(".mp4", ".mp3")  # Remove .mp4 extension
             filename = sub(r"(\s\s)", " ", filename)  # Remove double spaces
@@ -40,7 +40,6 @@ class DownloadEssential(DownloadEssentialInterface):
             return not (exists(f"{path}Música/{filename}"))
 
     def convert_to_mp3(self, file_path: str, file_name: str) -> None:
-
         rename(file_path, file_path.replace(".mp4", ".mp3"))
         file_path = file_path.replace(".mp4", ".mp3")
 
@@ -111,3 +110,6 @@ class DownloadEssential(DownloadEssentialInterface):
         if not (isdir(f"{path}/{name}")):
             path = join(path, name)
             mkdir(path)
+
+    def download_in_parts(self, url: str, headers: dict, parts: int = 1) -> None:
+        pass

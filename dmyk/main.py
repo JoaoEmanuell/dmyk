@@ -31,6 +31,10 @@ from source import (
     service,
     UiDropDown,
     UiDropDownInterface,
+    YoutubeDlDownloadVideo,
+    YoutubeDLDownloadPlaylist,
+    multi_thread,
+    MultiThreadInterface,
 )
 from version import __version__
 
@@ -47,13 +51,16 @@ class Tela(Screen):
         download_playlist: list[DownloadPlaylistInterface],
         download_essential: DownloadEssentialInterface,
         intent: IntentInterface,
+        multi_thread: MultiThreadInterface,
         **kwargs,
     ):
-
         super().__init__(**kwargs)
 
         self.ids.link.text = intent(platform).get_intent_text()
         self.__message_class = message_class
+
+        # Thread
+        self.__multi_thread = multi_thread
         self.__custom_thread = custom_thread
         self.__custom_thread_backup = custom_thread()
 
@@ -201,10 +208,11 @@ class Main(MDApp):
             UiDropDown,
             ApiControl,
             DownloadManager,
-            [PytubeDownloadVideo],
-            [PytubeDownloadPlaylist],
+            [YoutubeDlDownloadVideo, PytubeDownloadVideo],
+            [YoutubeDLDownloadPlaylist, PytubeDownloadPlaylist],
             download_essential,
             Intent,
+            multi_thread,
         )
 
     def on_start(self):
