@@ -62,7 +62,9 @@ class Tela(Screen):
         # Thread
         self.__multi_thread = multi_thread
         self.__custom_thread = custom_thread
+        self.__custom_thread_number = None
         self.__custom_thread_backup = custom_thread()
+        self.__custom_thread_backup_number = None
 
         # Drop Down
 
@@ -92,9 +94,10 @@ class Tela(Screen):
             )
         else:
             try:
-                if self.__custom_thread_backup.is_alive():
-                    self.__custom_thread_backup.kill()
-                    self.__custom_thread_backup.join()
+                if self.__multi_thread.is_alive(
+                    self.__custom_thread_backup_number
+                ):  # Verify if thread is alive
+                    self.__multi_thread.kill_all_threads()  # Kill threads
                     self.__message_class.set_out("Download cancelado!")
                     self.__message_class.set_pb(0, 0)
                     self.__message_class.set_ws("download_button", "default")
@@ -108,14 +111,11 @@ class Tela(Screen):
         self.__message_class.set_out("")
         self.__message_class.set_pb(0, 0)
 
-        # Set to None to restart the thread without this case treading error
-
-        self.__custom_thread_backup = None
-        self.__custom_thread_backup: CustomThreadInterface = self.__custom_thread()
+        custom_thread_backup: CustomThreadInterface = self.__custom_thread()
         try:
             url = str(self.ids.link.text)
 
-            self.__custom_thread_backup.set_thread(
+            custom_thread_backup.set_thread(
                 target=self.__download_manager,
                 args=(
                     url,
@@ -127,7 +127,10 @@ class Tela(Screen):
                     self.__download_essential,
                 ),
             )
-            self.__custom_thread_backup.start()
+            self.__custom_thread_backup_number = self.__multi_thread.register_thread(
+                custom_thread_backup
+            )
+            self.__multi_thread.run_thread(self.__custom_thread_backup_number)
 
         except Exception as err:
             self.__message_class.set_out(
