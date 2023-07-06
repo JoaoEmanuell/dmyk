@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 from ...api import ApiControlInterface
 from .download_content_interface import DownloadContentInterface
 from source.utils import MessageInterface
+from .multi_part_download_interface import MultiPartDownloadInterface
 from ..pytube.streams import Stream
 
 
@@ -14,6 +15,7 @@ class DownloadEssentialInterface(ABC):
         self,
         api_control: ApiControlInterface,
         download_content: DownloadContentInterface,
+        download_multiple: MultiPartDownloadInterface,
         message: MessageInterface,
     ) -> None:
         """Init
@@ -69,13 +71,12 @@ class DownloadEssentialInterface(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def download_in_parts(self, url: str, headers: dict, parts: int = 1) -> None:
+    def download_in_parts(self, url: str, headers: dict, filename: str) -> None:
         """Download in parts, used to download a file using parts download.
-        Start the download, download parts and union parts in one file.
 
         Args:
             url (str): download file url
             headers (dict): headers to request
-            part (int, optional): number of parts to download. Defaults to 1.
+            filename (str): Filename to save file
         """
         raise NotImplementedError()
