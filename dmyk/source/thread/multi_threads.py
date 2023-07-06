@@ -11,7 +11,6 @@ class MultiThread(MultiThreadInterface):
     def register_thread(self, thread: CustomThreadInterface) -> int:
         thread_number = randint(1, 100000)
         self.__threads[thread_number] = thread
-        print(f"Registe thread: {thread_number} | {self.__threads}")
         return thread_number
 
     def run_thread(self, thread_number: int) -> None:
@@ -38,7 +37,7 @@ class MultiThread(MultiThreadInterface):
             self.__kill_threads_retry = 0
         except RuntimeError:
             print(f"RuntimeError to kill threads {self.__kill_threads_retry}")
-            if self.__kill_threads_retry != 10:
+            if self.__kill_threads_retry != 100:
                 self.__kill_threads_retry += 1
                 self.kill_all_threads()
             else:
