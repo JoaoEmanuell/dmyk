@@ -93,7 +93,8 @@ class DownloadEssential(DownloadEssentialInterface):
         # Delete file on server
         self.__api_control.delete_file(hash)
 
-    def _get_download_path(self) -> str:
+    @classmethod
+    def _get_download_path(cls) -> str:
         paths = {
             "win": r"C:\Users\%s\Desktop\\",
             "linux": "/home/%s",

@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import ABC, abstractmethod, abstractclassmethod
 
 from ...api import ApiControlInterface
 from .download_content_interface import DownloadContentInterface
@@ -52,8 +52,8 @@ class DownloadEssentialInterface(ABC):
         """
         raise NotImplementedError()
 
-    @abstractmethod
-    def _get_download_path(self) -> str:
+    @abstractclassmethod
+    def _get_download_path(cls) -> str:
         """Get the download path, where save content
 
         Returns:
