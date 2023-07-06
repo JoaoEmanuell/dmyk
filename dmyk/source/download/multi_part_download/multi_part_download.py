@@ -1,6 +1,7 @@
 from urllib.request import Request, urlopen
-from os import remove
+from os import remove, mkdir
 from requests import head
+from time import sleep
 
 from source.thread import MultiThreadInterface, CustomThreadInterface
 from source.utils import MessageInterface
@@ -20,8 +21,13 @@ class MultiPartDownload(MultiPartDownloadInterface):
         self.__multi_thread = multi_thread
         self.__custom_thread = custom_thread
         self.__message = message
-        self.__path = path
+        self.__path = f"{path}/Música"
         self.__retry = 0
+        self.__parts_path = f"./parts/"
+        try:
+            mkdir(self.__parts_path)
+        except FileExistsError:
+            pass
 
     def download(self, url: str, headers: dict, filename: str) -> None:
         response = head(url)
@@ -40,11 +46,11 @@ class MultiPartDownload(MultiPartDownloadInterface):
         chunk_size = file_size // self.__part_number
 
         threads = []
-        for i in range(num_chunks):
+        for i in range(self.__part_number):
             start_byte = i * chunk_size
             end_byte = start_byte + chunk_size - 1
 
-            if i == num_chunks - 1:
+            if i == self.__part_number - 1:
                 end_byte = file_size - 1
 
             # Range
@@ -54,9 +60,7 @@ class MultiPartDownload(MultiPartDownloadInterface):
 
             thread = self.__custom_thread()
 
-            thread = thread.set_thread(
-                target=self.__download_chunk, args=(self, url, headers, i + 1)
-            )
+            thread.set_thread(target=self.__download_chunk, args=(url, headers, i + 1))
 
             thread_id = self.__multi_thread.register_thread(thread)
 
@@ -64,16 +68,27 @@ class MultiPartDownload(MultiPartDownloadInterface):
 
             threads.append(thread_id)
 
-        for thread in threads:
-            self.__multi_thread.kill_thread(thread)
+        # Verify if threads is running
 
-        print("Download complete.")
-        print("Union parts")
+        not_activate_threads = 0
+        while True:
+            for thread in threads:
+                thread_state = self.__multi_thread.is_alive(thread)
+                if not thread_state:
+                    not_activate_threads += 1
+            if not_activate_threads == len(threads):
+                break
+            else:
+                sleep(1)
+
+        self.__message.set_out("Unindo as partes, aguarde um pouco!")
         self.__union_parts(f"{self.__path}/{filename}")
+        self.__message.set_out("União das partes finalizada!")
 
     def __download_chunk(self, url: str, headers: dict, chunk_number: int) -> None:
         request = Request(url, headers=headers)
-        filename = f"{self.__path}/{chunk_number}.dat"
+        filename = f"{self.__parts_path}/{chunk_number}.dat"
+        # print(f"Filename: {filename}")
 
         # Create a initial file with empty data
 
@@ -104,10 +119,7 @@ class MultiPartDownload(MultiPartDownloadInterface):
 
                 if length:
                     # print(f"Part: {chunk_number} | size: {size} | length: {length}")
-                    print(f"Part: {chunk_number} | size: {size} | length: {length}")
-                    self.__message.set_pb(
-                        max=length, percent=size, part_number=chunk_number
-                    )
+                    self.__message.set_pb(max=length, percent=size)
                 # Append data on file
                 with open(filename, "ab") as part:
                     part.write(file)
@@ -117,10 +129,13 @@ class MultiPartDownload(MultiPartDownloadInterface):
         with open(filename, "w") as file:
             file.write("")
 
-        for i in range(num_chunks):
-            print(f"union: part{i + 1}.dat | {i + 1}")
-            part_file_name = f"{self.__path}/{i + 1}.dat"
+        for i in range(self.__part_number):
+            part_file_name = f"{self.__parts_path}/{i + 1}.dat"
+            # Open part
             with open(part_file_name, "rb") as part:
+                # Open complete file
                 with open(filename, "ab") as complete:
+                    # Append part on complete file
                     complete.write(part.read())
+            # Remove part
             remove(part_file_name)
