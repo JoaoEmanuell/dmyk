@@ -10,6 +10,10 @@ from .download_pytube import PytubeDownloadPlaylist, PytubeDownloadVideo
 
 from .download_youtube_dl import YoutubeDlDownloadVideo, YoutubeDLDownloadPlaylist
 
+# Multi part download
+
+from .multi_part_download import MultiPartDownload
+
 # Interfaces
 
 from .interfaces import (
@@ -18,4 +22,5 @@ from .interfaces import (
     DownloadManagerInterface,
     DownloadEssentialInterface,
     DownloadPlaylistInterface,
+    MultiPartDownloadInterface,
 )

@@ -28,6 +28,8 @@ from .download import (
     DownloadVideoInterface,
     YoutubeDlDownloadVideo,
     YoutubeDLDownloadPlaylist,
+    MultiPartDownload,
+    MultiPartDownloadInterface,
 )
 
 # Custom thread
