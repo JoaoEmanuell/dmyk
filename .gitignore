@@ -123,3 +123,4 @@ __pycache__/
 pytube/
 test_pytube/
 youtube_dl/
+parts/
