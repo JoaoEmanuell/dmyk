@@ -26,11 +26,12 @@ class MultiPartDownloadInterface(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def download(self, url: str, headers: dict) -> None:
+    def download(self, url: str, headers: dict, filename: str) -> None:
         """Download
 
         Args:
             url (str): url to download
             headers (dict): Headers to request
+            filename (str): Filename to save file
         """
         raise NotImplementedError()

@@ -19,13 +19,18 @@ class Message(MessageInterface):
 
     @classmethod
     @mainthread
-    def set_output(cls, text: str = "") -> None:
+    def set_output(cls, text: str = "", *args, **kwargs) -> None:
         App.get_running_app().root.ids.output.text = str(text)
 
     @classmethod
     @mainthread
     def set_progressbar(
-        cls, max: int = 100, percent: int = 0, bar_type: str = "determinate"
+        cls,
+        max: int = 100,
+        percent: int = 0,
+        bar_type: str = "determinate",
+        *args,
+        **kwargs
     ) -> None:
         main_box = App.get_running_app().root.ids.box
 
@@ -64,7 +69,7 @@ class Message(MessageInterface):
             cls.pb_remove_spinner_bar(main_box)
 
     @classmethod
-    def pb_remove_spinner_bar(cls, main_box: any) -> None:
+    def pb_remove_spinner_bar(cls, main_box: any, *args, **kwargs) -> None:
         # Remove spinner and progress bar from main box
         if cls.spinner_widget != None:
             main_box.remove_widget(cls.spinner_widget)
@@ -73,13 +78,14 @@ class Message(MessageInterface):
 
     @classmethod
     @mainthread
-    def set_download_button_text(cls, text: str = "") -> None:
+    def set_download_button_text(cls, text: str = "", *args, **kwargs) -> None:
         App.get_running_app().root.ids.download_button.text = str(text)
 
     @classmethod
     @mainthread
-    def set_widget_style(cls, widget_id: str = "", style: str = "") -> None:
-
+    def set_widget_style(
+        cls, widget_id: str = "", style: str = "", *args, **kwargs
+    ) -> None:
         styles: dict[str, Any] = style_dict[widget_id][style]
         for key, value in styles.items():
             setattr(
@@ -91,20 +97,24 @@ class Message(MessageInterface):
     # Alias
 
     @classmethod
-    def set_out(cls, text: str = "") -> None:
+    def set_out(cls, text: str = "", *args, **kwargs) -> None:
         cls.set_output(text)
 
     @classmethod
     def set_pb(
-        cls, max: int = 100, percent: int = 0, bar_type: str = "determinate"
+        cls,
+        max: int = 100,
+        percent: int = 0,
+        bar_type: str = "determinate",
+        *args,
+        **kwargs
     ) -> None:
         cls.set_progressbar(max, percent, bar_type)
 
     @classmethod
-    def set_dbt(cls, text: str = "") -> None:
+    def set_dbt(cls, text: str = "", *args, **kwargs) -> None:
         cls.set_download_button_text(text)
 
     @classmethod
-    def set_ws(cls, widget_id: str = "", style: str = "") -> None:
-
+    def set_ws(cls, widget_id: str = "", style: str = "", *args, **kwargs) -> None:
         cls.set_widget_style(widget_id, style)

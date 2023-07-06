@@ -5,7 +5,7 @@ class MessageInterface(ABC):
     """This class send message to interface in main thread."""
 
     @abstractclassmethod
-    def set_output(cls, text: str = "") -> None:
+    def set_output(cls, text: str = "", *args, **kwargs) -> None:
         """Set output text
 
         Args:
@@ -15,7 +15,12 @@ class MessageInterface(ABC):
 
     @abstractclassmethod
     def set_progressbar(
-        cls, max: int = 100, percent: int = 0, bar_type: str = "determinate"
+        cls,
+        max: int = 100,
+        percent: int = 0,
+        bar_type: str = "determinate",
+        *args,
+        **kwargs
     ) -> None:
         """Set progress bar
 
@@ -27,7 +32,7 @@ class MessageInterface(ABC):
         raise NotImplementedError()
 
     @abstractclassmethod
-    def set_download_button_text(cls, text: str = "") -> None:
+    def set_download_button_text(cls, text: str = "", *args, **kwargs) -> None:
         """Set the download button text
 
         Args:
@@ -36,7 +41,9 @@ class MessageInterface(ABC):
         raise NotImplementedError()
 
     @abstractclassmethod
-    def set_widget_style(cls, widget_id: str = "", style: str = "") -> None:
+    def set_widget_style(
+        cls, widget_id: str = "", style: str = "", *args, **kwargs
+    ) -> None:
         """Set widget style
 
         Args:
@@ -46,7 +53,7 @@ class MessageInterface(ABC):
         raise NotImplementedError()
 
     @abstractclassmethod
-    def set_out(cls, text: str = "") -> None:
+    def set_out(cls, text: str = "", *args, **kwargs) -> None:
         """Set output text alias
 
         Args:
@@ -56,7 +63,12 @@ class MessageInterface(ABC):
 
     @abstractclassmethod
     def set_pb(
-        cls, max: int = 100, percent: int = 0, bar_type: str = "determinate"
+        cls,
+        max: int = 100,
+        percent: int = 0,
+        bar_type: str = "determinate",
+        *args,
+        **kwargs
     ) -> None:
         """Set progress bar alias
 
@@ -68,7 +80,7 @@ class MessageInterface(ABC):
         raise NotImplementedError()
 
     @abstractclassmethod
-    def set_dbt(cls, text: str = "") -> None:
+    def set_dbt(cls, text: str = "", *args, **kwargs) -> None:
         """Set the download button text alias
 
         Args:
@@ -77,7 +89,7 @@ class MessageInterface(ABC):
         raise NotImplementedError()
 
     @abstractclassmethod
-    def set_ws(cls, widget_id: str = "", style: str = "") -> None:
+    def set_ws(cls, widget_id: str = "", style: str = "", *args, **kwargs) -> None:
         """Set widget style
 
         Args:
