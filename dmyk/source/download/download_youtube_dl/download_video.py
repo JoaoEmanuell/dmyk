@@ -54,22 +54,26 @@ class YoutubeDlDownloadVideo(DownloadVideoInterface):
         self.__message.set_out("Coletando dados do vídeo!\nAguarde um momento!")
         self.__video_infos = self.__get_video_infos()
         self.__video_form = None
-        self.__title = self.__get_title()
-        self.__headers = self.__get_headers(self.__quality)
+        title = self.__get_title()
+        headers = self.__get_headers(self.__quality)
 
         if self.__convert:
             self.__message.set_out(
-                self.__templates_strings["start"] % ("da música", self.__title)
+                self.__templates_strings["start"] % ("da música", title)
             )
             self.__download_audio()
         else:
             self.__message.set_out(
-                self.__templates_strings["start"] % ("do vídeo", self.__title)
+                self.__templates_strings["start"] % ("do vídeo", title)
             )
-            self.__download_video()
+            self.__download_video(headers, title)
 
-    def __download_video(self) -> None:
-        pass
+    def __download_video(self, headers: dict, title: str) -> None:
+        video_url = self.__get_video_url(self.__quality)
+        self.__download_essential.download_in_parts(
+            url=video_url, headers=headers, filename=f"{title}.mp4"
+        )
+        self.__message.set_out(f"Download do vídeo\n{title}\nFinalizado!")
 
     def __download_audio(self) -> None:
         pass
