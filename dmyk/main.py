@@ -84,6 +84,9 @@ class Tela(Screen):
         self.__version_url = r"https://raw.githubusercontent.com/JoaoEmanuell/dmyk/master/dmyk/version.py"
         self.verify_update()
 
+        # Exclude parts
+        self.__clear_parts()
+
     def main(self) -> None:
         try:
             request = Request("https://www.youtube.com")
@@ -102,6 +105,8 @@ class Tela(Screen):
                     self.__message_class.set_pb(0, 0)
                     self.__message_class.set_ws("download_button", "default")
                     print("Default button main")
+                    # Clear parts
+                    self.__clear_parts()
                 else:
                     self.start_download()
             except (AssertionError, AttributeError):  # Case the thread not created
@@ -198,6 +203,13 @@ class Tela(Screen):
                     Uri.parse(dmyk_url),
                 )
                 PythonActivity.mActivity.startActivity(intent)
+
+    def __clear_parts(self) -> None:
+        from os import listdir, remove
+
+        parts = listdir("./parts/")
+        for part in parts:
+            remove(f"./parts/{part}")
 
 
 class Main(MDApp):
