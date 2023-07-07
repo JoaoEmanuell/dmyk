@@ -42,6 +42,7 @@ class YoutubeDlDownloadVideo(DownloadVideoInterface):
         self.__ydl_opts = {
             "quiet": True,
             "no_warnings": True,
+            'nocheckcertificate': True, # Fix android ssl bug
         }
 
         # Video
