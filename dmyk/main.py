@@ -20,9 +20,9 @@ from source import (
     DownloadEssentialInterface,
     DownloadManager,
     DownloadManagerInterface,
-    DownloadPlaylist,
+    PytubeDownloadPlaylist,
     DownloadPlaylistInterface,
-    DownloadVideo,
+    PytubeDownloadVideo,
     DownloadVideoInterface,
     Intent,
     IntentInterface,
@@ -31,6 +31,10 @@ from source import (
     service,
     UiDropDown,
     UiDropDownInterface,
+    YoutubeDlDownloadVideo,
+    YoutubeDLDownloadPlaylist,
+    multi_thread,
+    MultiThreadInterface,
 )
 from version import __version__
 
@@ -43,19 +47,24 @@ class Tela(Screen):
         drop_down: UiDropDownInterface,
         api_control: ApiControlInterface,
         download_manager: DownloadManagerInterface,
-        download_video: DownloadVideoInterface,
-        download_playlist: DownloadPlaylistInterface,
+        download_video: list[DownloadVideoInterface],
+        download_playlist: list[DownloadPlaylistInterface],
         download_essential: DownloadEssentialInterface,
         intent: IntentInterface,
+        multi_thread: MultiThreadInterface,
         **kwargs,
     ):
-
         super().__init__(**kwargs)
 
         self.ids.link.text = intent(platform).get_intent_text()
         self.__message_class = message_class
+
+        # Thread
+        self.__multi_thread = multi_thread
         self.__custom_thread = custom_thread
+        self.__custom_thread_number = None
         self.__custom_thread_backup = custom_thread()
+        self.__custom_thread_backup_number = None
 
         # Drop Down
 
@@ -75,6 +84,9 @@ class Tela(Screen):
         self.__version_url = r"https://raw.githubusercontent.com/JoaoEmanuell/dmyk/master/dmyk/version.py"
         self.verify_update()
 
+        # Exclude parts
+        self.__clear_parts()
+
     def main(self) -> None:
         try:
             request = Request("https://www.youtube.com")
@@ -85,13 +97,16 @@ class Tela(Screen):
             )
         else:
             try:
-                if self.__custom_thread_backup.is_alive():
-                    self.__custom_thread_backup.kill()
-                    self.__custom_thread_backup.join()
+                if self.__multi_thread.is_alive(
+                    self.__custom_thread_backup_number
+                ):  # Verify if thread is alive
+                    self.__multi_thread.kill_all_threads()  # Kill threads
                     self.__message_class.set_out("Download cancelado!")
                     self.__message_class.set_pb(0, 0)
                     self.__message_class.set_ws("download_button", "default")
                     print("Default button main")
+                    # Clear parts
+                    self.__clear_parts()
                 else:
                     self.start_download()
             except (AssertionError, AttributeError):  # Case the thread not created
@@ -101,14 +116,11 @@ class Tela(Screen):
         self.__message_class.set_out("")
         self.__message_class.set_pb(0, 0)
 
-        # Set to None to restart the thread without this case treading error
-
-        self.__custom_thread_backup = None
-        self.__custom_thread_backup: CustomThreadInterface = self.__custom_thread()
+        custom_thread_backup: CustomThreadInterface = self.__custom_thread()
         try:
             url = str(self.ids.link.text)
 
-            self.__custom_thread_backup.set_thread(
+            custom_thread_backup.set_thread(
                 target=self.__download_manager,
                 args=(
                     url,
@@ -120,7 +132,10 @@ class Tela(Screen):
                     self.__download_essential,
                 ),
             )
-            self.__custom_thread_backup.start()
+            self.__custom_thread_backup_number = self.__multi_thread.register_thread(
+                custom_thread_backup
+            )
+            self.__multi_thread.run_thread(self.__custom_thread_backup_number)
 
         except Exception as err:
             self.__message_class.set_out(
@@ -189,6 +204,13 @@ class Tela(Screen):
                 )
                 PythonActivity.mActivity.startActivity(intent)
 
+    def __clear_parts(self) -> None:
+        from os import listdir, remove
+
+        parts = listdir("./parts/")
+        for part in parts:
+            remove(f"./parts/{part}")
+
 
 class Main(MDApp):
     def build(self) -> Screen:
@@ -201,10 +223,11 @@ class Main(MDApp):
             UiDropDown,
             ApiControl,
             DownloadManager,
-            DownloadVideo,
-            DownloadPlaylist,
+            [PytubeDownloadVideo, YoutubeDlDownloadVideo],
+            [PytubeDownloadPlaylist, YoutubeDLDownloadPlaylist],
             download_essential,
             Intent,
+            multi_thread,
         )
 
     def on_start(self):

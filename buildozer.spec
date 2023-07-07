@@ -22,13 +22,13 @@ source.include_exts = py,png,jpg,kv,atlas
 #source.exclude_exts = spec
 
 # (list) List of directory to exclude (let empty to not exclude anything)
-source.exclude_dirs = tests, bin, buildozer, opt, tmp, .git
+source.exclude_dirs = tests, bin, buildozer, opt, tmp, .git, parts/
 
 # (list) List of exclusions using pattern matching
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 6.0.0
+version = 7.0.0
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
@@ -36,7 +36,7 @@ version = 6.0.0
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy,certifi==2022.9.24,charset-normalizer==2.1.1,idna==3.4,requests==2.28.1,urllib3==1.26.13,kivymd==1.1.1
+requirements = python3,kivy,certifi==2023.5.7,charset-normalizer==2.1.1,idna==3.4,requests==2.28.1,urllib3==1.26.13,kivymd==1.1.1
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes

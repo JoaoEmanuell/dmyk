@@ -9,15 +9,15 @@ from time import sleep
 
 # Local imports
 
-from .pytube import YouTube, Stream
-from .interfaces import (
+from ..pytube import YouTube, Stream
+from ..interfaces import (
     DownloadVideoInterface,
     DownloadEssentialInterface,
 )
 from source.utils import MessageInterface
 
 
-class DownloadVideo(DownloadVideoInterface):
+class PytubeDownloadVideo(DownloadVideoInterface):
     def __init__(
         self,
         link: str,
@@ -60,7 +60,6 @@ class DownloadVideo(DownloadVideoInterface):
         if self.__download_essential.verify_if_file_not_exists(
             self.__convert, self.__stream, self.__path
         ):
-
             self.__message.set_out(
                 self.__templates_strings["download"] % ("do vídeo", self.__video.title)
             )
@@ -84,7 +83,6 @@ class DownloadVideo(DownloadVideoInterface):
         if self.__download_essential.verify_if_file_not_exists(
             self.__convert, self.__stream, self.__path
         ):
-
             self.__message.set_out(
                 self.__templates_strings["download"] % ("da música", self.__video.title)
             )
@@ -105,7 +103,6 @@ class DownloadVideo(DownloadVideoInterface):
                 print(f"ERR: {err.with_traceback()}")
 
             else:
-
                 self.__message.set_pb(100, 100)
 
                 self.__message.set_out(
@@ -113,7 +110,6 @@ class DownloadVideo(DownloadVideoInterface):
                 )
 
         else:
-
             self.__message.set_out(
                 self.__templates_strings["exists"] % ("Música", self.__video.title)
             )

@@ -1,8 +1,9 @@
-from abc import ABC, abstractmethod
+from abc import ABC, abstractmethod, abstractclassmethod
 
 from ...api import ApiControlInterface
 from .download_content_interface import DownloadContentInterface
 from source.utils import MessageInterface
+from .multi_part_download_interface import MultiPartDownloadInterface
 from ..pytube.streams import Stream
 
 
@@ -14,6 +15,7 @@ class DownloadEssentialInterface(ABC):
         self,
         api_control: ApiControlInterface,
         download_content: DownloadContentInterface,
+        download_multiple: MultiPartDownloadInterface,
         message: MessageInterface,
     ) -> None:
         """Init
@@ -50,8 +52,8 @@ class DownloadEssentialInterface(ABC):
         """
         raise NotImplementedError()
 
-    @abstractmethod
-    def _get_download_path(self) -> str:
+    @abstractclassmethod
+    def _get_download_path(cls) -> str:
         """Get the download path, where save content
 
         Returns:
@@ -65,5 +67,16 @@ class DownloadEssentialInterface(ABC):
 
         Args:
             name (str): Name to directory
+        """
+        raise NotImplementedError()
+
+    @abstractmethod
+    def download_in_parts(self, url: str, headers: dict, filename: str) -> None:
+        """Download in parts, used to download a file using parts download.
+
+        Args:
+            url (str): download file url
+            headers (dict): headers to request
+            filename (str): Filename to save file
         """
         raise NotImplementedError()

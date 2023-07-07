@@ -18,19 +18,28 @@ from .api import ApiControl, ApiControlInterface
 from .download import (
     DownloadContent,
     DownloadEssential,
-    DownloadPlaylist,
-    DownloadVideo,
+    PytubeDownloadPlaylist,
+    PytubeDownloadVideo,
     DownloadManager,
     DownloadPlaylistInterface,
     DownloadContentInterface,
     DownloadEssentialInterface,
     DownloadManagerInterface,
     DownloadVideoInterface,
+    YoutubeDlDownloadVideo,
+    YoutubeDLDownloadPlaylist,
+    MultiPartDownload,
+    MultiPartDownloadInterface,
 )
 
 # Custom thread
 
-from .thread import CustomThread, CustomThreadInterface
+from .thread import (
+    CustomThread,
+    CustomThreadInterface,
+    MultiThread,
+    MultiThreadInterface,
+)
 
 # Ui
 
@@ -42,7 +51,7 @@ from .styles import styles
 
 # Singleton
 
-from .singleton import download_essential
+from .singleton import download_essential, multi_thread
 
 # Utils
 

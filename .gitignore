@@ -122,3 +122,5 @@ pyvenv.cfg
 __pycache__/
 pytube/
 test_pytube/
+youtube_dl/
+parts/

@@ -1,1 +1,2 @@
 from .custom_thread_interface import CustomThreadInterface
+from .multi_threads_interface import MultiThreadInterface

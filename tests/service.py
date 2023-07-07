@@ -1,8 +1,9 @@
 from sys import path
 
-path.append('..')
+path.append("..")
 
 from source_android import service, ServiceInterface, Service
+
 
 def test_answer():
     assert issubclass(Service, ServiceInterface)
