@@ -30,7 +30,7 @@ class MultiPartDownload(MultiPartDownloadInterface):
             pass
 
     def download(self, url: str, headers: dict, filename: str) -> None:
-        response = head(url)
+        response = head(url, allow_redirects=True)
         file_size = int(response.headers["Content-Length"])
 
         # Retry
@@ -38,14 +38,14 @@ class MultiPartDownload(MultiPartDownloadInterface):
         if file_size == 0:
             print("Retry download!")
             self.__retry += 1
-            if self.__retry == 3:
+            if self.__retry == 10:
                 raise Exception("Error to download!")
             else:
                 self.download(url, headers, filename)
 
         chunk_size = file_size // self.__part_number
 
-        threads = []
+        threads: list[int] = []
         for i in range(self.__part_number):
             start_byte = i * chunk_size
             end_byte = start_byte + chunk_size - 1
@@ -70,25 +70,35 @@ class MultiPartDownload(MultiPartDownloadInterface):
 
         # Verify if threads is running
 
-        not_activate_threads = 0
+        not_activate_threads = []
         while True:
-            for thread in threads:
-                thread_state = self.__multi_thread.is_alive(thread)
-                if not thread_state:
-                    not_activate_threads += 1
-            if not_activate_threads == len(threads):
+            for thread_id in threads:
+                thread_state = self.__multi_thread.is_alive(thread_id)
+                if not thread_state and thread_id not in not_activate_threads:
+                    not_activate_threads.append(thread_id)
+            if len(not_activate_threads) == len(threads):
                 break
             else:
                 sleep(1)
+
+        # Remove threads from multi_thread
+        for thread_id in not_activate_threads:
+            self.__multi_thread.kill_thread(thread_id)
 
         self.__message.set_out("Unindo as partes, aguarde um pouco!")
         self.__union_parts(f"{self.__path}/{filename}")
         self.__message.set_out("União das partes finalizada!")
 
     def __download_chunk(self, url: str, headers: dict, chunk_number: int) -> None:
+        """Download chunk file
+
+        Args:
+            url (str): Url to complete file
+            headers (dict): Headers to request, contain the range for download
+            chunk_number (int): Number of chunk, to determinate the part.
+        """
         request = Request(url, headers=headers)
         filename = f"{self.__parts_path}/{chunk_number}.dat"
-        # print(f"Filename: {filename}")
 
         # Create a initial file with empty data
 
@@ -104,7 +114,7 @@ class MultiPartDownload(MultiPartDownloadInterface):
                 length = int(length)
                 block_size = max(4096, length // 20)
 
-            print(f"Len : {length} blocksize : {block_size}")
+            # print(f"Len : {length} blocksize : {block_size}")
 
             size = 0
 
@@ -125,6 +135,11 @@ class MultiPartDownload(MultiPartDownloadInterface):
                     part.write(file)
 
     def __union_parts(self, filename: str) -> None:
+        """Union all parts in one file
+
+        Args:
+            filename (str): Filename to save the file
+        """
         # Create a initial file with empty data
         with open(filename, "w") as file:
             file.write("")
