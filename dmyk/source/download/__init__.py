@@ -1,8 +1,18 @@
 from .download_content import DownloadContent
 from .download_essential import DownloadEssential
-from .download_playlist import DownloadPlaylist
-from .download_video import DownloadVideo
 from .download_manager import DownloadManager
+
+# Pytube
+
+from .download_pytube import PytubeDownloadPlaylist, PytubeDownloadVideo
+
+# YoutubeDL
+
+from .download_youtube_dl import YoutubeDlDownloadVideo, YoutubeDLDownloadPlaylist
+
+# Multi part download
+
+from .multi_part_download import MultiPartDownload
 
 # Interfaces
 
@@ -12,4 +22,5 @@ from .interfaces import (
     DownloadManagerInterface,
     DownloadEssentialInterface,
     DownloadPlaylistInterface,
+    MultiPartDownloadInterface,
 )

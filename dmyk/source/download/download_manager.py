@@ -19,12 +19,11 @@ class DownloadManager(DownloadManagerInterface):
         link: str,
         mp3: bool,
         quality: str,
-        video: DownloadVideoInterface,
-        playlist: DownloadPlaylistInterface,
+        video: list[DownloadVideoInterface],
+        playlist: list[DownloadPlaylistInterface],
         message: MessageInterface,
         download_essential: DownloadEssentialInterface,
     ) -> None:
-
         self.__link = str(link)
         self.__mp3 = bool(mp3)
         self.__quality = str(quality)
@@ -33,6 +32,7 @@ class DownloadManager(DownloadManagerInterface):
         self.__playlist = playlist
         self.__download_essential = download_essential
         self.__message = message
+        self.__downloader_number = 0  # Downloader to use
 
         self.main()
 
@@ -59,7 +59,6 @@ class DownloadManager(DownloadManagerInterface):
             return False
 
     def main(self) -> None:
-
         print("Iniciando o download")
         self.set_dbt_style("stop")
         try:
@@ -71,26 +70,35 @@ class DownloadManager(DownloadManagerInterface):
                 "download_essential": self.__download_essential,
             }
 
+            video_downloader = self.__video[self.__downloader_number]
+            playlist_downloader = self.__playlist[self.__downloader_number]
+
             if self.private__verify_url():
                 self.__download_essential.create_directory("Música")
                 if self.private__verify_playlist():
                     print("Verificado playlist, iniciando o download da playlist")
-                    self.__playlist(**download_args_dict).download_playlist(
-                        self.__video
+                    playlist_downloader(**download_args_dict).download_playlist(
+                        video_downloader
                     )
                 else:
                     print("Verificado vídeo!")
                     self.set_dbt_style("stop")
                     print("Iniciando download do vídeo")
-                    self.__video(**download_args_dict).download()
+                    video_downloader(**download_args_dict).download()
                     self.set_dbt_style()
             else:
                 self.__message.set_out("Erro, url invalida!")
                 self.set_dbt_style()
 
         except Exception as Ex:
-            if 'Exception while accessing title of ' in str(Ex):
-                self.__message.set_out('Erro ao obter o título do vídeo, tentando novamente!')
+            if self.__downloader_number < (len(self.__video) - 1):
+                self.__message.set_out(
+                    f"Erro no método de download {self.__downloader_number}!\nTentando por outro método!"
+                )
+
+                self.__downloader_number += 1
+
+                print(f"ERROR DOWNLOADER {self.__downloader_number}: {Ex}")
                 self.main()
             else:
                 self.__message.set_out("YouTube quebrou o app:/")
