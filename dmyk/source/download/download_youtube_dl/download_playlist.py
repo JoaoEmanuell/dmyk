@@ -42,7 +42,7 @@ class YoutubeDLDownloadPlaylist(DownloadPlaylistInterface):
             ).download()
         self.__message.set_out("Download da Playlist concluído!")
 
-    def __get_playlist_urls(self) -> list:
+    def __get_playlist_urls(self) -> list[str]:
         ydl_opts = {"quiet": True, "no_warnings": True, "extract_flat": "in_playlist"}
         with YoutubeDL(ydl_opts) as ydl:
             info_dict = ydl.extract_info(self.__playlist, download=False)
