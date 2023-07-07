@@ -28,7 +28,7 @@ source.exclude_dirs = tests, bin, buildozer, opt, tmp, .git, parts/
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 6.0.0
+version = 7.0.0
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
