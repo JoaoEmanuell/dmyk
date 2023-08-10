@@ -10,6 +10,10 @@ from .download_pytube import PytubeDownloadPlaylist, PytubeDownloadVideo
 
 from .download_youtube_dl import YoutubeDlDownloadVideo, YoutubeDLDownloadPlaylist
 
+# Remote download
+
+from .download_remote_youtube_dl import DownloadRemoteVideoYoutubeDl, DownloadRemotePlaylistYoutubeDl
+
 # Multi part download
 
 from .multi_part_download import MultiPartDownload
