@@ -1,8 +1,6 @@
 from os.path import exists, join, basename
-from os import listdir, system, mkdir, remove
-from shutil import copytree
+from os import system, mkdir, remove
 from pathlib import Path
-from typing import Tuple
 from sys import version
 from re import search, compile, sub
 from io import BytesIO
@@ -32,8 +30,8 @@ def install_kivy(absolute_path: str) -> None:
     Args:
         absolute_path (str): absolute path to project
     """
-    res = input("Kivy is installed? [S/N] ").strip().upper()[0]
-    if res == "S":
+    res = input("Kivy is installed? [Y/N] ").strip().upper()[0]
+    if res == "Y":
         pass
 
     else:
@@ -74,8 +72,8 @@ def install_kivy(absolute_path: str) -> None:
             system("pip install Kivy==2.1.0")
             print("Kivy installed")
 
-    res = input("Install requirements.txt? [S/N] ").strip().upper()[0]
-    if res == "N":
+    res = input("Install requirements.txt? [Y/N] ").strip().upper()[0]
+    if res == "Y":
         return None
     else:
         system(f"pip install -r {absolute_path}requirements.txt")
