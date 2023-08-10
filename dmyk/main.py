@@ -35,7 +35,7 @@ from source import (
     multi_thread,
     MultiThreadInterface,
     DownloadRemoteVideoYoutubeDl,
-    DownloadRemotePlaylistYoutubeDl
+    DownloadRemotePlaylistYoutubeDl,
 )
 from version import __version__
 
@@ -225,7 +225,11 @@ class Main(MDApp):
             ApiControl,
             DownloadManager,
             [DownloadRemoteVideoYoutubeDl, PytubeDownloadVideo, YoutubeDlDownloadVideo],
-            [DownloadRemotePlaylistYoutubeDl, PytubeDownloadPlaylist, YoutubeDLDownloadPlaylist],
+            [
+                DownloadRemotePlaylistYoutubeDl,
+                PytubeDownloadPlaylist,
+                YoutubeDLDownloadPlaylist,
+            ],
             download_essential,
             Intent,
             multi_thread,

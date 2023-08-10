@@ -31,7 +31,7 @@ from .download import (
     MultiPartDownload,
     MultiPartDownloadInterface,
     DownloadRemotePlaylistYoutubeDl,
-    DownloadRemoteVideoYoutubeDl
+    DownloadRemoteVideoYoutubeDl,
 )
 
 # Custom thread

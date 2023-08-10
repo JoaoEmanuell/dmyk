@@ -32,5 +32,5 @@ class DownloadPlaylistInterface(ABC):
 
         Args:
             download (DownloadVideoInterface): Downloader to download the videos
-        """        
+        """
         raise NotImplementedError

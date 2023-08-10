@@ -12,7 +12,10 @@ from .download_youtube_dl import YoutubeDlDownloadVideo, YoutubeDLDownloadPlayli
 
 # Remote download
 
-from .download_remote_youtube_dl import DownloadRemoteVideoYoutubeDl, DownloadRemotePlaylistYoutubeDl
+from .download_remote_youtube_dl import (
+    DownloadRemoteVideoYoutubeDl,
+    DownloadRemotePlaylistYoutubeDl,
+)
 
 # Multi part download
 

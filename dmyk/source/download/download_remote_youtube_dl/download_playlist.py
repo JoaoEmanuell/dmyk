@@ -7,8 +7,16 @@ from ..interfaces import (
 )
 from source.utils import MessageInterface
 
+
 class DownloadRemotePlaylistYoutubeDl(DownloadPlaylistInterface):
-    def __init__(self, link: str, mp3: bool, quality: str, message: MessageInterface, download_essential: DownloadEssentialInterface) -> None:
+    def __init__(
+        self,
+        link: str,
+        mp3: bool,
+        quality: str,
+        message: MessageInterface,
+        download_essential: DownloadEssentialInterface,
+    ) -> None:
         self.__endpoint = "https://youtubedlapi-apolomundogames3.b4a.run/api/playlist/"
         self.__url = link
         self.__mp3 = mp3

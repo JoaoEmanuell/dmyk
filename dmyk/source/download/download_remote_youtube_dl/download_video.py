@@ -7,8 +7,16 @@ from ..interfaces import (
 from source.utils import MessageInterface
 from ..interfaces import DownloadVideoInterface
 
+
 class DownloadRemoteVideoYoutubeDl(DownloadVideoInterface):
-    def __init__(self, link: str, mp3: bool, quality: str, message: MessageInterface, download_essential: DownloadEssentialInterface) -> None:
+    def __init__(
+        self,
+        link: str,
+        mp3: bool,
+        quality: str,
+        message: MessageInterface,
+        download_essential: DownloadEssentialInterface,
+    ) -> None:
         self.__endpoint = "https://youtubedlapi-apolomundogames3.b4a.run/api/video/"
         self.__url = link
         self.__mp3 = mp3
@@ -23,7 +31,7 @@ class DownloadRemoteVideoYoutubeDl(DownloadVideoInterface):
             "exists": '%s "%s" já foi baixado!',
         }
         self.__message.set_pb(100, 0, "indeterminate")
-    
+
     def download(self) -> None:
         if self.__mp3:
             self.__message.set_out("Coletando dados da música\nAguarde um pouco!")
@@ -31,12 +39,9 @@ class DownloadRemoteVideoYoutubeDl(DownloadVideoInterface):
         else:
             self.__message.set_out("Coletando dados do vídeo\nAguarde um pouco!")
             self.__download_video()
-            
+
     def __download_audio(self) -> None:
-        data = {
-            "url": self.__url,
-            "quality": "mp3"
-        }
+        data = {"url": self.__url, "quality": "mp3"}
         request = post(self.__endpoint, data=data)
         json = request.json()
         filename = f'{json["title"]}.mp3'
@@ -57,12 +62,9 @@ class DownloadRemoteVideoYoutubeDl(DownloadVideoInterface):
             file_path=path_to_file, file_name=f"{filename}"
         )
         self.__message.set_out(self.__templates_strings["convert"] % title)
-    
+
     def __download_video(self) -> None:
-        data = {
-            "url": self.__url,
-            "quality": self.__quality
-        }
+        data = {"url": self.__url, "quality": self.__quality}
         request = post(self.__endpoint, data=data)
         json = request.json()
         filename = f'{json["title"]}.mp4'
