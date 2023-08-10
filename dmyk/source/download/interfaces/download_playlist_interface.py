@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 
 from source.utils import MessageInterface
 from .download_essential_interface import DownloadEssentialInterface
+from .download_video_interface import DownloadVideoInterface
 
 
 class DownloadPlaylistInterface(ABC):
@@ -26,6 +27,10 @@ class DownloadPlaylistInterface(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def download_playlist(self) -> None:
-        """Start download playlist"""
+    def download_playlist(self, download: DownloadVideoInterface):
+        """Start download playlist
+
+        Args:
+            download (DownloadVideoInterface): Downloader to download the videos
+        """
         raise NotImplementedError

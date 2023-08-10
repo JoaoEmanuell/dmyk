@@ -30,6 +30,8 @@ from .download import (
     YoutubeDLDownloadPlaylist,
     MultiPartDownload,
     MultiPartDownloadInterface,
+    DownloadRemotePlaylistYoutubeDl,
+    DownloadRemoteVideoYoutubeDl,
 )
 
 # Custom thread

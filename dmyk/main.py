@@ -3,7 +3,6 @@ from urllib.error import URLError
 from urllib.request import urlopen, Request
 from socket import timeout
 
-# from kivy.app import App
 from kivymd.app import MDApp
 from kivy.uix.screenmanager import Screen
 from kivy.utils import platform
@@ -35,6 +34,8 @@ from source import (
     YoutubeDLDownloadPlaylist,
     multi_thread,
     MultiThreadInterface,
+    DownloadRemoteVideoYoutubeDl,
+    DownloadRemotePlaylistYoutubeDl,
 )
 from version import __version__
 
@@ -223,8 +224,12 @@ class Main(MDApp):
             UiDropDown,
             ApiControl,
             DownloadManager,
-            [PytubeDownloadVideo, YoutubeDlDownloadVideo],
-            [PytubeDownloadPlaylist, YoutubeDLDownloadPlaylist],
+            [DownloadRemoteVideoYoutubeDl, PytubeDownloadVideo, YoutubeDlDownloadVideo],
+            [
+                DownloadRemotePlaylistYoutubeDl,
+                PytubeDownloadPlaylist,
+                YoutubeDLDownloadPlaylist,
+            ],
             download_essential,
             Intent,
             multi_thread,
