@@ -9,6 +9,8 @@
 Download Music YouTube Kivy [dmyk] is a project to download music and videos 
 from YouTube, using pytube lib and kivy.
 
+[Download](https://joaoemanuell.github.io/dmyk/html/download.html)
+
 # Starting
 
 ## Virtual environment
