@@ -6,6 +6,7 @@ from time import sleep
 from source.thread import MultiThreadInterface, CustomThreadInterface
 from source.utils import MessageInterface
 from ..interfaces import MultiPartDownloadInterface
+from source.utils import MultiPartDownloadException
 
 
 class MultiPartDownload(MultiPartDownloadInterface):
@@ -39,7 +40,7 @@ class MultiPartDownload(MultiPartDownloadInterface):
             print("Retry download!")
             self.__retry += 1
             if self.__retry == 10:
-                raise Exception("Error to download!")
+                raise MultiPartDownloadException()
             else:
                 self.download(url, headers, filename)
 

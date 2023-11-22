@@ -8,7 +8,7 @@ from .interfaces import ApiControlInterface
 
 class ApiControl(ApiControlInterface):
     def __init__(self) -> None:
-        self.__endpoint = "https://joaoemanuellmp3api.fly.dev/api/"
+        self.__endpoint = "https://mp3api-pv49xe5o.b4a.run/api/"
         self.private__start_api()
 
     def private__start_api(self) -> None:
