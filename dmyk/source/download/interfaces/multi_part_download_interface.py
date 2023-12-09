@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 
 from source.thread import MultiThreadInterface, CustomThreadInterface
 from source.utils import MessageInterface
+from source.utils import MultiPartDownloadException
 
 
 class MultiPartDownloadInterface(ABC):
@@ -33,5 +34,7 @@ class MultiPartDownloadInterface(ABC):
             url (str): url to download
             headers (dict): Headers to request
             filename (str): Filename to save file
+        Raises:
+            MultiPartDownloadException: Error in download
         """
         raise NotImplementedError()
