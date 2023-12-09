@@ -31,7 +31,7 @@ class DownloadRemoteVideoYoutubeDl(DownloadVideoInterface):
             "exists": '%s "%s" já foi baixado!',
         }
         self.__download_retry = 0
-        self.__timeout = 60 # one minute
+        self.__timeout = 60  # one minute
         self.__message.set_pb(100, 0, "indeterminate")
 
     def download(self) -> None:
@@ -43,51 +43,26 @@ class DownloadRemoteVideoYoutubeDl(DownloadVideoInterface):
             self.__download_video()
 
     def __download_audio(self) -> None:
-<<<<<<< HEAD
-        data = {"url": self.__url, "quality": "mp3"}
-        request = post(self.__endpoint, data=data)
-=======
-        data = {
-            "url": self.__url,
-            "quality": "mp3"
-        }
-        request = post(self.__endpoint, data=data, timeout=self.__timeout)
->>>>>>> feature-remote-downloader
-        json = request.json()
-        filename = f'{json["title"]}.mp3'
-        headers = json["headers"]
-        video_url = json["url"]
-        title = json["title"]
-        self.__message.set_out(
-            self.__templates_strings["download"] % ("da música", title)
-        )
-<<<<<<< HEAD
-        self.__download_essential.download_in_parts(
-            url=video_url, headers=headers, filename=filename
-        )
-        self.__message.set_out("Iniciando conversão para mp3, aguarde um pouco!")
-        path_to_file = (
-            f"{self.__download_essential._get_download_path()}/Música/{filename}"
-        )
-        self.__download_essential.convert_to_mp3(
-            file_path=path_to_file, file_name=f"{filename}"
-        )
-        self.__message.set_out(self.__templates_strings["convert"] % title)
-
-    def __download_video(self) -> None:
-        data = {"url": self.__url, "quality": self.__quality}
-        request = post(self.__endpoint, data=data)
-=======
         try:
+            data = {"url": self.__url, "quality": "mp3"}
+            request = post(self.__endpoint, data=data, timeout=self.__timeout)
+            json = request.json()
+            filename = f'{json["title"]}.mp3'
+            headers = json["headers"]
+            video_url = json["url"]
+            title = json["title"]
+            self.__message.set_out(
+                self.__templates_strings["download"] % ("da música", title)
+            )
             self.__download_essential.download_in_parts(
                 url=video_url, headers=headers, filename=filename
             )
-        except MultiPartDownloadException:
+        except Exception:
             # Retry the request to download
-            
+
             if self.__download_retry == 3:
                 raise Exception("Error in remote download")
-            
+
             self.__download_retry += 1
             self.__download_audio()
         else:
@@ -99,42 +74,30 @@ class DownloadRemoteVideoYoutubeDl(DownloadVideoInterface):
                 file_path=path_to_file, file_name=f"{filename}"
             )
             self.__message.set_out(self.__templates_strings["convert"] % title)
-    
+
     def __download_video(self) -> None:
-        data = {
-            "url": self.__url,
-            "quality": self.__quality
-        }
-        request = post(self.__endpoint, data=data, timeout=self.__timeout)
->>>>>>> feature-remote-downloader
-        json = request.json()
-        filename = f'{json["title"]}.mp4'
-        headers = json["headers"]
-        video_url = json["url"]
-        title = json["title"]
-        self.__message.set_out(
-            self.__templates_strings["download"] % ("do vídeo", title)
-        )
-<<<<<<< HEAD
-        self.__download_essential.download_in_parts(
-            url=video_url, headers=headers, filename=filename
-        )
-        print("End download")
-        self.__message.set_out(self.__templates_strings["end"] % (title))
-=======
         try:
+            data = {"url": self.__url, "quality": self.__quality}
+            request = post(self.__endpoint, data=data, timeout=self.__timeout)
+            json = request.json()
+            filename = f'{json["title"]}.mp4'
+            headers = json["headers"]
+            video_url = json["url"]
+            title = json["title"]
+            self.__message.set_out(
+                self.__templates_strings["download"] % ("do vídeo", title)
+            )
             self.__download_essential.download_in_parts(
                 url=video_url, headers=headers, filename=filename
             )
-        except MultiPartDownloadException:
+        except Exception:
             # Retry the request to download
-            
+
             if self.__download_retry == 3:
                 raise Exception("Error in remote download")
-            
+
             self.__download_retry += 1
             self.__download_video()
         else:
             print("End download")
             self.__message.set_out(self.__templates_strings["end"] % (title))
->>>>>>> feature-remote-downloader

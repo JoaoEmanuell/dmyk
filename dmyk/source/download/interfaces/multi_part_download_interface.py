@@ -36,5 +36,5 @@ class MultiPartDownloadInterface(ABC):
             filename (str): Filename to save file
         Raises:
             MultiPartDownloadException: Error in download
-        """        
+        """
         raise NotImplementedError()
