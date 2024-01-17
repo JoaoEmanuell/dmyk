@@ -31,7 +31,7 @@ class DownloadRemoteVideoYoutubeDl(DownloadVideoInterface):
             "exists": '%s "%s" já foi baixado!',
         }
         self.__download_retry = 0
-        self.__timeout = 20  # one minute
+        self.__timeout = 20
         self.__message.set_pb(100, 0, "indeterminate")
 
     def download(self) -> None:
