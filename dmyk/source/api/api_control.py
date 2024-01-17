@@ -9,7 +9,7 @@ from .interfaces import ApiControlInterface
 class ApiControl(ApiControlInterface):
     def __init__(self) -> None:
         self.__endpoint = "https://mp3-api.fly.dev/api/"
-        self.__timeout = 60 # 60 seconds
+        self.__timeout = 60  # 60 seconds
         self.private__start_api()
 
     def private__start_api(self) -> None:
@@ -17,7 +17,11 @@ class ApiControl(ApiControlInterface):
 
     def upload(self, file_path: str) -> Dict[str, str]:
         with open(file_path, "rb") as file:
-            response = post(f"{self.__endpoint}upload/", files={"file": file}, timeout=self.__timeout)
+            response = post(
+                f"{self.__endpoint}upload/",
+                files={"file": file},
+                timeout=self.__timeout,
+            )
             if response.status_code == 200:
                 return response.json()
             else:
