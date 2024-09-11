@@ -1,3 +1,9 @@
+# Depreciated
+
+Go to [new version](https://github.com/JoaoEmanuell/dmyrn)
+
+---
+
 - [dmyk](#dmyk)
 - [Starting](#starting)
   - [Virtual environment](#virtual-environment)
